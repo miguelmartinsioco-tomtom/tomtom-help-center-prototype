@@ -623,8 +623,9 @@
     };
 
     const params = new URLSearchParams(window.location.search);
-    const category = params.get('category') || 'software';
+    const category    = params.get('category')    || 'software';
     const description = params.get('description') || '';
+    const summaryParam = params.get('summary')    || '';
 
     const catLabel = CATEGORY_LABELS[category] || CATEGORY_LABELS['software'];
     document.getElementById('form-title').innerHTML =
@@ -634,10 +635,13 @@
     if (description) {
       document.getElementById('f-detail').value = description;
 
-      // Auto-generate summary: first sentence up to 120 chars
-      const firstSentence = description.match(/^[^.!?]+[.!?]/);
-      let summary = firstSentence ? firstSentence[0].trim() : description;
-      if (summary.length > 120) summary = summary.slice(0, 117).trimEnd() + '…';
+      // Use authored scenario summary, or fall back to first-sentence extraction
+      let summary = summaryParam;
+      if (!summary) {
+        const firstSentence = description.match(/^[^.!?]+[.!?]/);
+        summary = firstSentence ? firstSentence[0].trim() : description;
+        if (summary.length > 120) summary = summary.slice(0, 117).trimEnd() + '…';
+      }
       document.getElementById('f-summary').value = summary;
     }
   </script>

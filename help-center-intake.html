@@ -533,6 +533,7 @@
       {
         label: 'A',
         text: "We're using TomTom's Map Display API and notice a road that was closed six months ago is still shown as open on the rendered map. We want to report this so it gets corrected.",
+        summary: 'Road closed 6 months ago still rendered as open in Map Display API',
         category: 'map-content',
         deflect: false,
         hint: 'Map Content Issue — incorrect road data'
@@ -540,6 +541,7 @@
       {
         label: 'B',
         text: "We're evaluating TomTom's Routing API for a new project and want to know which pricing tier includes offline map support before we commit.",
+        summary: 'Which Routing API pricing tier includes offline map support?',
         category: 'product-info',
         deflect: false,
         hint: 'Product Information — pricing & capabilities'
@@ -547,6 +549,7 @@
       {
         label: 'C',
         text: "Our team lead was removed from our company's TomTom developer account, and we now need to add a new team member with admin access to our API keys.",
+        summary: 'Need to grant admin access to new team member on developer account',
         category: 'account',
         deflect: false,
         hint: 'Account Issue — team & access management'
@@ -554,6 +557,7 @@
       {
         label: 'D',
         text: "Our app uses the TomTom Maps SDK, and search results are returning an 'offline' label even though the device has an active internet connection.",
+        summary: "Maps SDK shows 'offline' on search results despite active internet connection",
         category: 'software',
         deflect: true,
         hint: 'Ambiguous — Maps SDK / connectivity'
@@ -561,6 +565,7 @@
       {
         label: 'E',
         text: "After upgrading to the latest version of the Navigation SDK, our API calls started failing with a 401 Unauthorized error that didn't occur before the upgrade.",
+        summary: 'Navigation SDK upgrade causes 401 Unauthorized errors on all API calls',
         category: 'software',
         deflect: true,
         hint: 'Ambiguous — SDK upgrade / auth issue'
@@ -568,6 +573,7 @@
       {
         label: 'F',
         text: "We're following the sample code in TomTom's documentation step by step, but the route rendered in our test app doesn't match what the docs describe. We're not sure if the docs are outdated.",
+        summary: 'Route rendered by documentation sample code does not match described output',
         category: 'other',
         deflect: false,
         hint: 'Suggest Documentation Improvements'
@@ -657,7 +663,8 @@
         tile.addEventListener('click', () => {
           const params = new URLSearchParams({
             category: cat.id,
-            description: intakeText.value.trim()
+            description: intakeText.value.trim(),
+            ...(activeScenario?.summary ? { summary: activeScenario.summary } : {})
           });
           window.location.href = 'help-center-record-producer.html?' + params.toString();
         });
