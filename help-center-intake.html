@@ -1,0 +1,804 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Get Help — TomTom Help Center</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+
+  <style>
+    /* ─── Playbook Design Tokens ─────────────────────────────────────────── */
+    :root {
+      --ui-surface-0:           #FFFFFF;
+      --ui-surface-1:           #F2F2F2;
+      --ui-surface-2:           #E5E5E5;
+      --ui-surface-3:           #CCCCCC;
+      --ui-surface-high-em:     #333333;
+      --ui-surface-primary:     #000000;
+      --ui-surface-brand-red:   #DF1B12;
+      --ui-text-high-em:        #000000;
+      --ui-text-med-em:         #5C5C5C;
+      --ui-text-low-em:         #959595;
+      --ui-text-disabled:       #B2B2B2;
+      --ui-text-white:          #FFFFFF;
+      --ui-text-red-on-base:    #DF1B12;
+      --ui-border-base-em:      #F2F2F2;
+      --ui-border-low-em:       #E5E5E5;
+      --ui-border-med-em:       #CCCCCC;
+      --ui-border-high-em:      #B2B2B2;
+      --ui-border-primary-high-em: #000000;
+      --ui-border-red-high-em:  #DF1B12;
+      --ui-elevation-e1: 0px 1px 2px -1px rgba(17,12,34,0.08);
+      --ui-elevation-e2: 0px 2px 4px -2px rgba(17,12,34,0.12);
+      --ui-elevation-e3: 0px 6px 16px -6px rgba(17,12,34,0.1);
+      --ui-elevation-e4: 0px 16px 20px -8px rgba(17,12,34,0.1);
+      --ui-radius-sm:   5px;
+      --ui-radius-md:   10px;
+      --ui-radius-xl:   40px;
+      --ui-font-heading: 'Gilroy', 'Nunito', 'Segoe UI', sans-serif;
+      --ui-font-body:    'Proxima Nova', 'Inter', 'Segoe UI', sans-serif;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    [hidden] { display: none !important; }
+    html, body { height: 100%; font-family: var(--ui-font-body); font-size: 16px; color: var(--ui-text-high-em); background: var(--ui-surface-1); }
+    body { display: flex; flex-direction: column; min-height: 100vh; }
+    a { color: inherit; text-decoration: none; }
+    button { cursor: pointer; border: none; background: none; font: inherit; }
+
+    /* ─── Nav Bar ────────────────────────────────────────────────────────── */
+    header { position: sticky; top: 0; z-index: 50; }
+
+    .nav-bar { width: 100%; height: 80px; background: var(--ui-surface-0); border-bottom: 1px solid var(--ui-border-base-em); box-shadow: none; transition: box-shadow 0.15s ease; }
+    .nav-bar.scrolled { box-shadow: var(--ui-elevation-e1); }
+
+    .nav-bar__inner { display: flex; align-items: center; justify-content: space-between; max-width: 1600px; height: 100%; margin: 0 auto; padding: 0 80px; position: relative; }
+    .nav-bar__left { display: flex; align-items: center; gap: 24px; flex-shrink: 0; padding-right: 24px; }
+    .nav-bar__logo-group { display: flex; align-items: center; gap: 24px; text-decoration: none; }
+    .nav-bar__logo-sep { display: flex; align-items: center; justify-content: center; width: 1px; height: 28px; background: var(--ui-border-low-em); flex-shrink: 0; }
+    .nav-bar__product-name { font-family: var(--ui-font-heading); font-weight: 700; font-size: 20px; line-height: 24px; color: var(--ui-text-high-em); white-space: nowrap; }
+
+    .nav-bar__tabs { position: absolute; left: 50%; transform: translateX(-50%); display: flex; align-items: center; height: 100%; gap: 0; list-style: none; }
+    .nav-bar__tab { display: inline-flex; align-items: center; justify-content: center; height: 80px; padding: 0 16px; font-family: var(--ui-font-heading); font-weight: 700; font-size: 14px; color: var(--ui-text-high-em); border-bottom: 2px solid transparent; transition: border-color 0.15s, color 0.15s; }
+    .nav-bar__tab:hover { color: var(--ui-text-high-em); border-bottom-color: var(--ui-border-med-em); }
+    .nav-bar__tab.active { color: var(--ui-surface-brand-red); border-bottom-color: var(--ui-surface-brand-red); }
+
+    .nav-bar__right { display: flex; align-items: center; gap: 8px; flex-shrink: 0; }
+    .nav-icon-btn { display: flex; align-items: center; justify-content: center; width: 40px; height: 40px; border-radius: var(--ui-radius-xl); color: var(--ui-text-med-em); transition: background 0.15s, color 0.15s; }
+    .nav-icon-btn:hover { background: var(--ui-surface-1); color: var(--ui-text-high-em); }
+    .nav-avatar { display: flex; align-items: center; justify-content: center; width: 36px; height: 36px; border-radius: 50%; background: #004B7F; color: #fff; font-size: 12px; font-weight: 700; border: 2px solid #fff; box-shadow: 0 0 0 1.5px #004B7F; }
+
+    .breadcrumb-bar { width: 100%; height: 56px; background: var(--ui-surface-0); border-bottom: 1px solid var(--ui-border-low-em); }
+    .breadcrumb-bar__inner { display: flex; align-items: center; gap: 4px; max-width: 1600px; height: 100%; margin: 0 auto; padding: 0 80px; }
+    .breadcrumb-link { font-size: 13px; color: var(--ui-text-med-em); }
+    .breadcrumb-link:hover { color: var(--ui-text-high-em); text-decoration: underline; }
+    .breadcrumb-sep { display: flex; align-items: center; color: var(--ui-text-low-em); }
+    .breadcrumb-sep svg { width: 16px; height: 16px; }
+    .breadcrumb-current { font-size: 13px; font-weight: 600; color: var(--ui-text-high-em); }
+
+    /* ─── Footer ─────────────────────────────────────────────────────────── */
+    .site-footer { width: 100%; background: var(--ui-surface-high-em); margin-top: auto; }
+    .site-footer__inner { display: flex; align-items: center; justify-content: space-between; max-width: 1600px; margin: 0 auto; padding: 0 80px; height: 68px; }
+    .site-footer__copyright { font-size: 12px; color: var(--ui-text-low-em); }
+    .site-footer__links { display: flex; gap: 24px; list-style: none; }
+    .site-footer__links a { font-size: 12px; color: var(--ui-text-low-em); transition: color 0.15s; }
+    .site-footer__links a:hover { color: var(--ui-text-white); }
+
+    /* ─── Buttons ─────────────────────────────────────────────────────────── */
+    .btn { display: inline-flex; align-items: center; justify-content: center; gap: 6px; font-family: var(--ui-font-body); font-weight: 600; border-radius: var(--ui-radius-xl); transition: background 0.15s, color 0.15s, border-color 0.15s, box-shadow 0.15s; white-space: nowrap; text-decoration: none; }
+    .btn--md { height: 40px; padding: 0 20px; font-size: 14px; }
+    .btn--sm { height: 32px; padding: 0 14px; font-size: 13px; }
+    .btn--lg { height: 48px; padding: 0 28px; font-size: 15px; }
+    .btn--primary-default { background: var(--ui-surface-primary); color: var(--ui-text-white); }
+    .btn--primary-default:hover { background: #333; }
+    .btn--secondary { background: transparent; color: var(--ui-text-high-em); border: 1.5px solid var(--ui-border-med-em); }
+    .btn--secondary:hover { border-color: var(--ui-border-primary-high-em); }
+    .btn--link { background: none; border: none; font-size: 13px; font-weight: 600; text-decoration: underline; color: var(--ui-text-high-em); padding: 0; }
+
+    /* ─── Main layout ────────────────────────────────────────────────────── */
+    main { flex: 1; display: flex; flex-direction: column; }
+
+    /* ─── Page hero ──────────────────────────────────────────────────────── */
+    .page-hero { width: 100%; background: var(--ui-surface-0); border-bottom: 1px solid var(--ui-border-low-em); }
+    .page-hero__inner { max-width: 1600px; margin: 0 auto; padding: 40px 80px; }
+    .page-hero__label { font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; color: var(--ui-text-low-em); margin-bottom: 8px; }
+    .page-hero__title { font-family: var(--ui-font-heading); font-weight: 800; font-size: 28px; line-height: 1.2; color: var(--ui-text-high-em); margin-bottom: 8px; }
+    .page-hero__desc { font-size: 15px; color: var(--ui-text-med-em); max-width: 560px; line-height: 1.5; }
+
+    /* ─── State container ────────────────────────────────────────────────── */
+    .state { flex: 1; padding: 48px 80px; }
+    .state[hidden] { display: none; }
+    .state--centered { display: flex; flex-direction: column; align-items: center; }
+
+    /* ─── Initial state: input card ──────────────────────────────────────── */
+    .intake-card { width: 100%; max-width: 640px; background: var(--ui-surface-0); border: 1px solid var(--ui-border-low-em); border-radius: var(--ui-radius-md); box-shadow: var(--ui-elevation-e2); overflow: visible; }
+
+    .intake-card__body { padding: 24px; }
+
+    .intake-label { display: block; font-size: 13px; font-weight: 600; color: var(--ui-text-high-em); margin-bottom: 8px; }
+
+    .intake-textarea-wrap { position: relative; }
+    .intake-textarea { width: 100%; min-height: 120px; resize: vertical; padding: 12px 14px; font-family: var(--ui-font-body); font-size: 14px; line-height: 1.5; color: var(--ui-text-high-em); background: var(--ui-surface-0); border: 1.5px solid var(--ui-border-med-em); border-radius: var(--ui-radius-sm); outline: none; transition: border-color 0.15s, box-shadow 0.15s; }
+    .intake-textarea::placeholder { color: var(--ui-text-low-em); }
+    .intake-textarea:focus { border-color: #000; box-shadow: 0 0 0 3px rgba(0,0,0,0.06); }
+
+    .intake-card__footer { display: flex; align-items: center; justify-content: space-between; padding: 14px 24px; border-top: 1px solid var(--ui-border-low-em); background: var(--ui-surface-1); border-radius: 0 0 var(--ui-radius-md) var(--ui-radius-md); }
+
+    /* ─── Scenario picker ────────────────────────────────────────────────── */
+    .scenario-picker { position: relative; }
+    .scenario-picker__btn { display: inline-flex; align-items: center; gap: 6px; font-size: 13px; font-weight: 600; color: var(--ui-text-med-em); padding: 6px 10px; border-radius: var(--ui-radius-sm); transition: background 0.15s, color 0.15s; }
+    .scenario-picker__btn:hover { background: var(--ui-surface-2); color: var(--ui-text-high-em); }
+    .scenario-picker__btn svg { flex-shrink: 0; }
+
+    .scenario-dropdown { position: absolute; bottom: calc(100% + 8px); left: 0; width: 480px; background: var(--ui-surface-0); border: 1px solid var(--ui-border-low-em); border-radius: var(--ui-radius-md); box-shadow: var(--ui-elevation-e4); z-index: 100; overflow: hidden; }
+    .scenario-dropdown[hidden] { display: none; }
+    .scenario-dropdown__header { padding: 12px 16px 8px; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: var(--ui-text-low-em); border-bottom: 1px solid var(--ui-border-low-em); }
+    .scenario-item { display: flex; align-items: flex-start; gap: 12px; padding: 12px 16px; cursor: pointer; transition: background 0.12s; border: none; background: none; width: 100%; text-align: left; font-family: var(--ui-font-body); }
+    .scenario-item:hover { background: var(--ui-surface-1); }
+    .scenario-item + .scenario-item { border-top: 1px solid var(--ui-border-low-em); }
+    .scenario-item__badge { flex-shrink: 0; display: inline-flex; align-items: center; justify-content: center; width: 22px; height: 22px; border-radius: 50%; background: var(--ui-surface-1); font-size: 11px; font-weight: 700; color: var(--ui-text-med-em); margin-top: 1px; }
+    .scenario-item__text { font-size: 13px; color: var(--ui-text-high-em); line-height: 1.4; }
+    .scenario-item__category { font-size: 11px; color: var(--ui-text-low-em); margin-top: 2px; }
+
+    /* ─── Loading / thinking state ───────────────────────────────────────── */
+    .thinking-wrap { display: flex; flex-direction: column; align-items: center; gap: 24px; padding: 80px 0; }
+    .thinking-input-echo { max-width: 560px; width: 100%; background: var(--ui-surface-0); border: 1px solid var(--ui-border-low-em); border-radius: var(--ui-radius-md); padding: 14px 18px; font-size: 14px; color: var(--ui-text-med-em); line-height: 1.5; font-style: italic; }
+    .thinking-indicator { display: flex; flex-direction: column; align-items: center; gap: 12px; }
+    .thinking-dots { display: flex; align-items: center; gap: 6px; }
+    .thinking-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--ui-surface-brand-red); animation: dot-pulse 1.4s ease-in-out infinite; }
+    .thinking-dot:nth-child(1) { animation-delay: 0s; }
+    .thinking-dot:nth-child(2) { animation-delay: 0.2s; }
+    .thinking-dot:nth-child(3) { animation-delay: 0.4s; }
+    @keyframes dot-pulse {
+      0%, 60%, 100% { transform: translateY(0); opacity: 0.3; }
+      30% { transform: translateY(-7px); opacity: 1; }
+    }
+    .thinking-text { font-size: 14px; font-weight: 600; color: var(--ui-text-med-em); min-height: 20px; }
+
+    /* ─── Results state ──────────────────────────────────────────────────── */
+    .results-wrap { max-width: 1100px; width: 100%; }
+
+    .results-context { display: flex; align-items: center; gap: 12px; margin-bottom: 32px; padding: 12px 14px 12px 18px; background: var(--ui-surface-0); border: 1.5px solid var(--ui-border-med-em); border-radius: var(--ui-radius-md); cursor: text; transition: border-color 0.15s, box-shadow 0.15s; }
+    .results-context:hover { border-color: var(--ui-border-primary-high-em); box-shadow: var(--ui-elevation-e1); }
+    .results-context__label { font-size: 12px; font-weight: 600; color: var(--ui-text-low-em); white-space: nowrap; flex-shrink: 0; }
+    .results-context__text { font-size: 14px; color: var(--ui-text-high-em); line-height: 1.5; flex: 1; }
+    .results-context__edit { display: flex; align-items: center; gap: 5px; flex-shrink: 0; padding: 6px 10px; border-radius: var(--ui-radius-sm); color: var(--ui-text-low-em); font-size: 12px; font-weight: 600; cursor: pointer; transition: background 0.12s, color 0.12s; border: none; background: none; font-family: inherit; white-space: nowrap; }
+    .results-context__edit:hover { background: var(--ui-surface-1); color: var(--ui-text-high-em); }
+    .results-context__edit svg { flex-shrink: 0; }
+
+    .results-layout { display: flex; flex-direction: column; gap: 0; }
+
+    /* ─── Category grid ──────────────────────────────────────────────────── */
+    /* Starts hidden; revealed after deflection is dismissed */
+    .category-section { max-height: 0; overflow: hidden; opacity: 0; transition: max-height 0.55s ease, opacity 0.4s ease 0.12s; }
+    .category-section.is-visible { max-height: 3000px; opacity: 1; }
+    .category-section__heading { font-size: 13px; font-weight: 600; color: var(--ui-text-med-em); margin-bottom: 16px; }
+
+    .category-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+
+    .category-tile { display: flex; flex-direction: column; gap: 8px; padding: 16px; background: var(--ui-surface-0); border: 1.5px solid var(--ui-border-low-em); border-radius: var(--ui-radius-md); cursor: pointer; text-align: left; font-family: var(--ui-font-body); transition: border-color 0.15s, box-shadow 0.15s, transform 0.1s; position: relative; }
+    .category-tile:hover { border-color: var(--ui-border-high-em); box-shadow: var(--ui-elevation-e2); transform: translateY(-1px); }
+    .category-tile--suggested { border-color: var(--ui-surface-brand-red); box-shadow: 0 0 0 1px var(--ui-surface-brand-red), var(--ui-elevation-e2); }
+    .category-tile--suggested:hover { border-color: var(--ui-surface-brand-red); box-shadow: 0 0 0 1px var(--ui-surface-brand-red), var(--ui-elevation-e3); }
+
+    .tile-suggested-chip { display: inline-flex; align-items: center; gap: 4px; height: 20px; padding: 0 8px; background: var(--ui-surface-brand-red); color: #fff; font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; border-radius: 3px; margin-bottom: 4px; width: fit-content; }
+    .tile-icon { width: 32px; height: 32px; display: flex; align-items: center; justify-content: center; background: var(--ui-surface-1); border-radius: var(--ui-radius-sm); color: var(--ui-text-med-em); flex-shrink: 0; }
+    .category-tile--suggested .tile-icon { background: #FEF2F2; color: var(--ui-surface-brand-red); }
+    .tile-name { font-size: 13px; font-weight: 700; color: var(--ui-text-high-em); line-height: 1.3; }
+    .tile-desc { font-size: 12px; color: var(--ui-text-med-em); line-height: 1.4; flex: 1; }
+    .tile-tag { display: inline-flex; align-items: center; height: 18px; padding: 0 7px; background: var(--ui-surface-1); border-radius: 3px; font-size: 10px; font-weight: 600; color: var(--ui-text-low-em); width: fit-content; margin-top: auto; }
+
+    /* ─── Deflection panel (matches record producer styles) ──────────────── */
+    /* Centered and constrained when shown alone as the gate */
+    .deflect-panel { display: flex; flex-direction: column; width: 100%; transition: max-width 0.4s ease; }
+
+    /* Collapsed summary bar — hidden until panel is dismissed */
+    .deflect-collapsed-bar { display: none; align-items: center; gap: 10px; padding: 10px 18px; background: var(--ui-surface-1); border: 1px solid var(--ui-border-low-em); border-radius: var(--ui-radius-md); margin-bottom: 28px; }
+    .deflect-collapsed-bar__icon { display: flex; align-items: center; color: var(--ui-text-low-em); flex-shrink: 0; }
+    .deflect-collapsed-bar__text { font-size: 13px; color: var(--ui-text-med-em); flex: 1; }
+    .deflect-collapsed-bar__toggle { font-size: 12px; font-weight: 600; color: var(--ui-text-low-em); text-decoration: underline; cursor: pointer; background: none; border: none; font-family: inherit; padding: 0; white-space: nowrap; }
+    .deflect-collapsed-bar__toggle:hover { color: var(--ui-text-high-em); }
+
+    /* Collapsed state: show bar, hide full panel content, go full-width */
+    .deflect-panel.is-collapsed { }
+    .deflect-panel.is-collapsed .deflect-banner,
+    .deflect-panel.is-collapsed .deflect-card { display: none; }
+    .deflect-panel.is-collapsed .deflect-collapsed-bar { display: flex; }
+    .deflect-banner { display: flex; align-items: flex-start; gap: 12px; padding: 16px 20px; background: #FFFBEB; border: 1px solid #FDE68A; border-left: 4px solid #D97706; border-radius: var(--ui-radius-md) var(--ui-radius-md) 0 0; }
+    .deflect-banner__icon { display: flex; align-items: center; justify-content: center; width: 32px; height: 32px; border-radius: 6px; background: #FEF3C7; color: #D97706; flex-shrink: 0; margin-top: 1px; }
+    .deflect-banner__text { flex: 1; min-width: 0; }
+    .deflect-banner__title { font-size: 15px; font-weight: 700; color: #92400E; line-height: 1.3; }
+    .deflect-banner__sub { font-size: 13px; color: #B45309; margin-top: 3px; }
+    .deflect-card { background: var(--ui-surface-0); border: 1px solid var(--ui-border-low-em); border-top: none; border-radius: 0 0 var(--ui-radius-md) var(--ui-radius-md); overflow: hidden; display: grid; grid-template-columns: 1fr 1px 1fr; }
+    .deflect-card__left { display: flex; flex-direction: column; }
+    .deflect-card__divider { background: var(--ui-border-base-em); align-self: stretch; }
+    .deflect-card__right { display: flex; flex-direction: column; padding: 20px; gap: 14px; }
+    .deflect-docs__heading { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.07em; color: var(--ui-text-low-em); margin-bottom: 14px; }
+    .deflect-docs__list { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 16px; }
+    .deflect-docs__item { display: flex; flex-direction: column; gap: 3px; }
+    .deflect-docs__link { font-size: 13px; font-weight: 600; color: #1D4ED8; text-decoration: none; line-height: 1.35; }
+    .deflect-docs__link:hover { text-decoration: underline; }
+    .deflect-docs__desc { font-size: 12px; color: var(--ui-text-med-em); line-height: 1.4; }
+    .deflect-section { padding: 16px; display: flex; flex-direction: column; gap: 10px; }
+    .deflect-section + .deflect-section { border-top: 1px solid var(--ui-border-base-em); }
+    .deflect-section__eyebrow { display: flex; align-items: center; gap: 5px; font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em; color: var(--ui-text-low-em); }
+    .deflect-section__eyebrow svg { width: 12px; height: 12px; flex-shrink: 0; }
+    .deflect-section__eyebrow--issue { color: #B45309; }
+    .deflect-status { display: inline-flex; align-items: center; gap: 5px; height: 18px; padding: 0 7px; border-radius: 4px; background: var(--ui-surface-1); font-size: 11px; font-weight: 600; }
+    .deflect-status__dot { width: 6px; height: 6px; border-radius: 50%; flex-shrink: 0; }
+    .deflect-status--open .deflect-status__dot { background: #16A34A; }
+    .deflect-status--invest .deflect-status__dot { background: #D97706; }
+    .deflect-case__meta { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; font-size: 11px; color: var(--ui-text-low-em); }
+    .deflect-case__id { font-weight: 600; color: var(--ui-text-med-em); }
+    .deflect-case__sep { color: var(--ui-text-low-em); }
+    .deflect-case__title { font-size: 13px; font-weight: 600; line-height: 1.4; color: var(--ui-text-high-em); }
+    .deflect-case__detail { font-size: 12px; color: var(--ui-text-med-em); line-height: 1.4; }
+    .deflect-section__actions { display: flex; gap: 8px; flex-wrap: wrap; }
+    .deflect-fallback { display: flex; align-items: center; gap: 8px; padding: 12px 16px; border-top: 1px solid var(--ui-border-base-em); background: var(--ui-surface-1); font-size: 12px; color: var(--ui-text-med-em); grid-column: 1 / -1; }
+    .deflect-fallback .btn--link { font-size: 12px; }
+
+    /* ─── VA trigger ─────────────────────────────────────────────────────── */
+    .va-trigger { position: fixed; bottom: 24px; right: 24px; width: 56px; height: 56px; border-radius: 50%; background: var(--ui-surface-brand-red); color: #fff; display: flex; align-items: center; justify-content: center; box-shadow: var(--ui-elevation-e4); z-index: 200; transition: background 0.15s, transform 0.15s; }
+    .va-trigger:hover { background: #c41710; transform: scale(1.05); }
+  </style>
+</head>
+<body>
+
+  <!-- ── Header ──────────────────────────────────────────────────────────── -->
+
+  <!-- ── Page hero ───────────────────────────────────────────────────────── -->
+  <div class="page-hero" id="page-hero">
+    <div class="page-hero__inner">
+      <p class="page-hero__label">Support</p>
+      <h1 class="page-hero__title" id="hero-title">What do you need help with?</h1>
+      <p class="page-hero__desc" id="hero-desc">Describe your issue in your own words and we'll suggest the right category for you.</p>
+    </div>
+  </div>
+
+  <main>
+
+    <!-- ══════════════════════════════════════════════════════════════════════
+         STATE 1 — Initial input
+    ═══════════════════════════════════════════════════════════════════════ -->
+    <div class="state state--centered" id="state-initial">
+      <div class="intake-card">
+        <div class="intake-card__body">
+          <label class="intake-label" for="intake-text">Describe your issue</label>
+          <div class="intake-textarea-wrap">
+            <textarea
+              class="intake-textarea"
+              id="intake-text"
+              placeholder="e.g. After updating the Navigation SDK, our app's search results are showing an 'offline' label even though the device is connected to the internet."
+              rows="5"
+            ></textarea>
+          </div>
+        </div>
+        <div class="intake-card__footer">
+          <!-- Scenario picker -->
+          <div class="scenario-picker" id="scenario-picker">
+            <button class="scenario-picker__btn" id="scenario-trigger" aria-expanded="false" aria-haspopup="true" type="button">
+              <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                <circle cx="7" cy="7" r="5.5" stroke="currentColor" stroke-width="1.2"/>
+                <path d="M5.25 5.5C5.25 4.81 5.81 4.25 6.5 4.25H7C7.69 4.25 8.25 4.81 8.25 5.5C8.25 5.97 7.99 6.38 7.6 6.6L7 7V7.75" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/>
+                <circle cx="7" cy="9.5" r="0.6" fill="currentColor"/>
+              </svg>
+              Try a scenario
+            </button>
+            <div class="scenario-dropdown" id="scenario-dropdown" hidden role="menu">
+              <div class="scenario-dropdown__header">Sample scenarios from usability testing</div>
+              <!-- Scenarios populated by JS -->
+            </div>
+          </div>
+          <!-- Submit -->
+          <button class="btn btn--primary-default btn--md" id="btn-analyze" type="button">
+            Next
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══════════════════════════════════════════════════════════════════════
+         STATE 2 — Loading / thinking
+    ═══════════════════════════════════════════════════════════════════════ -->
+    <div class="state state--centered" id="state-loading" hidden>
+      <div class="thinking-wrap">
+        <div class="thinking-input-echo" id="thinking-echo"></div>
+        <div class="thinking-indicator">
+          <div class="thinking-dots" aria-label="Analyzing" role="status">
+            <span class="thinking-dot"></span>
+            <span class="thinking-dot"></span>
+            <span class="thinking-dot"></span>
+          </div>
+          <p class="thinking-text" id="thinking-text">Analyzing your request…</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══════════════════════════════════════════════════════════════════════
+         STATE 3 — Results: deflection (if applicable) + tile grid
+    ═══════════════════════════════════════════════════════════════════════ -->
+    <div class="state state--centered" id="state-results" hidden>
+      <div class="results-wrap">
+
+        <!-- User's text echo — click to re-edit -->
+        <div class="results-context" id="results-context" role="button" tabindex="0" aria-label="Edit your request" title="Click to edit your request">
+          <span class="results-context__label">You asked:</span>
+          <span class="results-context__text" id="results-echo"></span>
+          <button class="results-context__edit" type="button" tabindex="-1" aria-hidden="true">
+            <svg width="13" height="13" viewBox="0 0 13 13" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M9 2L11 4L4 11H2V9L9 2Z" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/>
+            </svg>
+            Edit
+          </button>
+        </div>
+
+        <!-- Two-column layout: tiles left, deflection right (deflection conditionally shown) -->
+        <div class="results-layout" id="results-layout">
+
+          <!-- Deflection panel (conditionally shown) -->
+          <div class="deflect-panel" id="deflect-panel" hidden>
+
+            <!-- Collapsed summary bar (shown after user dismisses) -->
+            <div class="deflect-collapsed-bar">
+              <div class="deflect-collapsed-bar__icon" aria-hidden="true">
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <circle cx="8" cy="8" r="6" stroke="currentColor" stroke-width="1.3"/>
+                  <path d="M5.5 8L7 9.5L10.5 6" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              </div>
+              <span class="deflect-collapsed-bar__text">You reviewed related cases and documentation — none matched your issue.</span>
+              <button class="deflect-collapsed-bar__toggle" id="btn-deflect-expand" type="button">Review again</button>
+            </div>
+
+            <div class="deflect-banner">
+              <div class="deflect-banner__icon" aria-hidden="true">
+                <svg viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <circle cx="7" cy="7" r="5.5" stroke="currentColor" stroke-width="1.2"/>
+                  <path d="M7 4.5V7.5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/>
+                  <circle cx="7" cy="9.5" r="0.6" fill="currentColor"/>
+                </svg>
+              </div>
+              <div class="deflect-banner__text">
+                <div class="deflect-banner__title">Before you continue — we found related references that might help</div>
+                <div class="deflect-banner__sub">Review these before opening a new support case</div>
+              </div>
+            </div>
+            <div class="deflect-card">
+              <!-- Left column: related cases -->
+              <div class="deflect-card__left">
+                <!-- Scenario 1: org-internal duplicate -->
+                <div class="deflect-section">
+                  <div class="deflect-section__eyebrow">
+                    <svg viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                      <path d="M9 6.5C9 7.605 8.105 8.5 7 8.5C5.895 8.5 5 7.605 5 6.5C5 5.395 5.895 4.5 7 4.5C8.105 4.5 9 5.395 9 6.5Z" stroke="currentColor" stroke-width="1.2"/>
+                      <path d="M2.5 12C2.5 10.067 4.567 8.5 7 8.5C9.433 8.5 11.5 10.067 11.5 12" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/>
+                      <rect x="1" y="1" width="12" height="12" rx="3" stroke="currentColor" stroke-width="1.2"/>
+                    </svg>
+                    In your organization
+                  </div>
+                  <div class="deflect-case__meta">
+                    <span class="deflect-status deflect-status--open"><span class="deflect-status__dot"></span>Open</span>
+                    <span class="deflect-case__id">CS-041892</span>
+                    <span class="deflect-case__sep">·</span>
+                    <span>Navigation SDK</span>
+                  </div>
+                  <div class="deflect-case__title">Map rendering shows outdated roads after SDK v10.2 update</div>
+                  <div class="deflect-case__detail">Reported by Sarah Chen · 3 days ago</div>
+                  <div class="deflect-section__actions">
+                    <button class="btn btn--primary-default btn--sm" type="button">Follow this case</button>
+                    <button class="btn btn--secondary btn--sm" type="button">View case</button>
+                  </div>
+                </div>
+                <!-- Scenario 2: known widespread issue -->
+                <div class="deflect-section">
+                  <div class="deflect-section__eyebrow deflect-section__eyebrow--issue">
+                    <svg viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                      <path d="M7 1.5L12.5 11.5H1.5L7 1.5Z" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round"/>
+                      <path d="M7 5.5V8" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/>
+                      <circle cx="7" cy="9.5" r="0.6" fill="currentColor"/>
+                    </svg>
+                    Known issue · Being investigated
+                  </div>
+                  <div class="deflect-case__meta">
+                    <span class="deflect-status deflect-status--invest"><span class="deflect-status__dot"></span>Investigating</span>
+                    <span class="deflect-case__sep">·</span>
+                    <span>Affects 12 accounts</span>
+                  </div>
+                  <div class="deflect-case__title">Map tile data discrepancies in Western Europe region</div>
+                  <div class="deflect-case__detail">TomTom engineering is actively investigating. Updates posted to the Service Status page.</div>
+                  <div class="deflect-section__actions">
+                    <button class="btn btn--secondary btn--sm" type="button">Track this issue</button>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Column divider -->
+              <div class="deflect-card__divider"></div>
+
+              <!-- Right column: helpful documentation -->
+              <div class="deflect-card__right">
+                <div class="deflect-docs">
+                  <div class="deflect-docs__heading">Helpful documentation</div>
+                  <ul class="deflect-docs__list">
+                    <li class="deflect-docs__item">
+                      <a href="#" class="deflect-docs__link">Single sign-on (SSO) login overview</a>
+                      <span class="deflect-docs__desc">How SSO authentication works with TomTom developer accounts and supported identity providers.</span>
+                    </li>
+                    <li class="deflect-docs__item">
+                      <a href="#" class="deflect-docs__link">Managing access with Single Sign-On (SSO)</a>
+                      <span class="deflect-docs__desc">Configure SSO, assign roles, and manage team member permissions in your organization.</span>
+                    </li>
+                    <li class="deflect-docs__item">
+                      <a href="#" class="deflect-docs__link">Managing access in MyTomTom</a>
+                      <span class="deflect-docs__desc">Add or remove users, update API key ownership, and adjust account access settings.</span>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+
+              <!-- Fallback — full width across both columns -->
+              <div class="deflect-fallback">
+                <span>None of these match your issue?</span>
+                <button class="btn--link" id="btn-deflect-dismiss" type="button">Proceed to creating a support case →</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Category grid (revealed after deflection dismissed, or immediately for non-deflecting scenarios) -->
+          <div class="category-section" id="category-section">
+            <p class="category-section__heading">Select or confirm your issue type</p>
+            <div class="category-grid" id="category-grid">
+              <!-- Tiles rendered by JS -->
+            </div>
+          </div>
+
+        </div><!-- /results-layout -->
+      </div>
+    </div>
+
+  </main>
+
+
+  <script>
+    /* ── Data ────────────────────────────────────────────────────────────── */
+    const CATEGORIES = [
+      {
+        id: 'software',
+        name: 'Software Issue',
+        desc: 'Bugs, unexpected errors, or behaviour changes in TomTom APIs or SDKs.',
+        tag: 'Problem',
+        icon: `<svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M4 5L1.5 8L4 11" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/><path d="M12 5L14.5 8L12 11" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/><path d="M9.5 3L6.5 13" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>`
+      },
+      {
+        id: 'outage',
+        name: 'Service Disruption or Outage',
+        desc: 'A TomTom service is down or degraded for your organisation.',
+        tag: 'Incident',
+        icon: `<svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M8 2L14 13H2L8 2Z" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/><path d="M8 6V9" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/><circle cx="8" cy="11" r="0.7" fill="currentColor"/></svg>`
+      },
+      {
+        id: 'feature',
+        name: 'New Feature Request',
+        desc: 'Suggest an improvement or new capability for a TomTom product.',
+        tag: 'Change Request',
+        icon: `<svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M8 2C8 2 5 4.5 5 7.5C5 9.433 6.343 11 8 11C9.657 11 11 9.433 11 7.5C11 4.5 8 2 8 2Z" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/><path d="M6.5 11V13H9.5V11" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/><path d="M6.5 13H9.5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>`
+      },
+      {
+        id: 'map-content',
+        name: 'Map Content Issue',
+        desc: 'Incorrect roads, addresses, points of interest, or geographic data on the map.',
+        tag: 'Problem',
+        icon: `<svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M8 2C5.79 2 4 3.79 4 6C4 9 8 14 8 14C8 14 12 9 12 6C12 3.79 10.21 2 8 2Z" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/><circle cx="8" cy="6" r="1.5" stroke="currentColor" stroke-width="1.4"/></svg>`
+      },
+      {
+        id: 'product-info',
+        name: 'Product Information',
+        desc: 'Questions about pricing, capabilities, compatibility, or how a product works.',
+        tag: 'Question / Inquiry',
+        icon: `<svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="8" cy="8" r="6" stroke="currentColor" stroke-width="1.4"/><path d="M6.25 6.25C6.25 5.28 7.03 4.5 8 4.5C8.97 4.5 9.75 5.28 9.75 6.25C9.75 6.97 9.33 7.59 8.72 7.88C8.4 8.04 8 8.32 8 8.75V9.5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/><circle cx="8" cy="11" r="0.7" fill="currentColor"/></svg>`
+      },
+      {
+        id: 'billing',
+        name: 'Billing and Payment',
+        desc: 'Invoice queries, payment failures, or questions about your current charges.',
+        tag: 'Question / Inquiry',
+        icon: `<svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="2" y="4" width="12" height="8" rx="1.5" stroke="currentColor" stroke-width="1.4"/><path d="M2 7H14" stroke="currentColor" stroke-width="1.4"/><path d="M5 10H7" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>`
+      },
+      {
+        id: 'license',
+        name: 'License and Legal',
+        desc: 'Licensing terms, usage rights, compliance questions, or contractual matters.',
+        tag: 'Question / Inquiry',
+        icon: `<svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M8 1.5L13.5 4V9C13.5 11.761 11.094 13.87 8 14.5C4.906 13.87 2.5 11.761 2.5 9V4L8 1.5Z" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/></svg>`
+      },
+      {
+        id: 'account',
+        name: 'Account Issue',
+        desc: 'Access, permissions, API keys, team members, or account management.',
+        tag: 'Question / Inquiry',
+        icon: `<svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="8" cy="5.5" r="2.5" stroke="currentColor" stroke-width="1.4"/><path d="M2.5 13.5C2.5 11.015 5.015 9 8 9C10.985 9 13.5 11.015 13.5 13.5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>`
+      },
+      {
+        id: 'other',
+        name: 'Other',
+        desc: 'Your issue doesn\'t fit any of the categories above.',
+        tag: 'Question / Inquiry',
+        icon: `<svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="4.5" cy="8" r="1" fill="currentColor"/><circle cx="8" cy="8" r="1" fill="currentColor"/><circle cx="11.5" cy="8" r="1" fill="currentColor"/></svg>`
+      }
+    ];
+
+    const SCENARIOS = [
+      {
+        label: 'A',
+        text: "We're using TomTom's Map Display API and notice a road that was closed six months ago is still shown as open on the rendered map. We want to report this so it gets corrected.",
+        category: 'map-content',
+        deflect: false,
+        hint: 'Map Content Issue — incorrect road data'
+      },
+      {
+        label: 'B',
+        text: "We're evaluating TomTom's Routing API for a new project and want to know which pricing tier includes offline map support before we commit.",
+        category: 'product-info',
+        deflect: false,
+        hint: 'Product Information — pricing & capabilities'
+      },
+      {
+        label: 'C',
+        text: "Our team lead was removed from our company's TomTom developer account, and we now need to add a new team member with admin access to our API keys.",
+        category: 'account',
+        deflect: false,
+        hint: 'Account Issue — team & access management'
+      },
+      {
+        label: 'D',
+        text: "Our app uses the TomTom Maps SDK, and search results are returning an 'offline' label even though the device has an active internet connection.",
+        category: 'software',
+        deflect: true,
+        hint: 'Ambiguous — Maps SDK / connectivity'
+      },
+      {
+        label: 'E',
+        text: "After upgrading to the latest version of the Navigation SDK, our API calls started failing with a 401 Unauthorized error that didn't occur before the upgrade.",
+        category: 'software',
+        deflect: true,
+        hint: 'Ambiguous — SDK upgrade / auth issue'
+      },
+      {
+        label: 'F',
+        text: "We're following the sample code in TomTom's documentation step by step, but the route rendered in our test app doesn't match what the docs describe. We're not sure if the docs are outdated.",
+        category: 'other',
+        deflect: false,
+        hint: 'Suggest Documentation Improvements'
+      }
+    ];
+
+    /* ── Elements ────────────────────────────────────────────────────────── */
+    const stateInitial  = document.getElementById('state-initial');
+    const stateLoading  = document.getElementById('state-loading');
+    const stateResults  = document.getElementById('state-results');
+    const intakeText    = document.getElementById('intake-text');
+    const btnAnalyze    = document.getElementById('btn-analyze');
+    const thinkingEcho  = document.getElementById('thinking-echo');
+    const thinkingText  = document.getElementById('thinking-text');
+    const resultsEcho   = document.getElementById('results-echo');
+    const categoryGrid    = document.getElementById('category-grid');
+    const categorySection = document.getElementById('category-section');
+    const resultsLayout   = document.getElementById('results-layout');
+    const deflectPanel    = document.getElementById('deflect-panel');
+    const scenarioTrigger    = document.getElementById('scenario-trigger');
+    const scenarioDropdown   = document.getElementById('scenario-dropdown');
+
+    let activeScenario = null;
+
+    /* ── Build scenario dropdown ─────────────────────────────────────────── */
+    SCENARIOS.forEach(s => {
+      const btn = document.createElement('button');
+      btn.className = 'scenario-item';
+      btn.type = 'button';
+      btn.role = 'menuitem';
+      btn.innerHTML = `
+        <span class="scenario-item__badge">${s.label}</span>
+        <div>
+          <div class="scenario-item__text">${s.text}</div>
+          <div class="scenario-item__category">${s.hint}</div>
+        </div>`;
+      btn.addEventListener('click', () => {
+        intakeText.value = s.text;
+        activeScenario = s;
+        scenarioDropdown.hidden = true;
+        scenarioTrigger.setAttribute('aria-expanded', 'false');
+        intakeText.focus();
+      });
+      scenarioDropdown.appendChild(btn);
+    });
+
+    /* ── Scenario dropdown toggle ────────────────────────────────────────── */
+    scenarioTrigger.addEventListener('click', (e) => {
+      e.stopPropagation();
+      const isOpen = !scenarioDropdown.hidden;
+      scenarioDropdown.hidden = isOpen;
+      scenarioTrigger.setAttribute('aria-expanded', String(!isOpen));
+    });
+    document.addEventListener('click', () => {
+      scenarioDropdown.hidden = true;
+      scenarioTrigger.setAttribute('aria-expanded', 'false');
+    });
+    scenarioDropdown.addEventListener('click', e => e.stopPropagation());
+
+    /* ── Classify text (mock rule-based) ─────────────────────────────────── */
+    function classify(text) {
+      const t = text.toLowerCase();
+      if (/billing|invoice|payment|charge|pricing cost/i.test(t)) return 'billing';
+      if (/license|legal|compliance|contract|terms|agreement/i.test(t)) return 'license';
+      if (/account|login|access|team|admin|api key|permission|user/i.test(t)) return 'account';
+      if (/feature|request|suggest|enhancement|roadmap|improvement/i.test(t)) return 'feature';
+      if (/outage|down|disruption|unavailable|offline.*service/i.test(t)) return 'outage';
+      if (/map.*data|road|tile|cartograph|geographic|address.*wrong|poi/i.test(t)) return 'map-content';
+      if (/pricing|how does|what is|which tier|documentation|docs|learn/i.test(t)) return 'product-info';
+      return 'software';
+    }
+
+    /* ── Build tile grid ─────────────────────────────────────────────────── */
+    function buildGrid(suggestedId) {
+      categoryGrid.innerHTML = '';
+      CATEGORIES.forEach(cat => {
+        const isSuggested = cat.id === suggestedId;
+        const tile = document.createElement('button');
+        tile.className = 'category-tile' + (isSuggested ? ' category-tile--suggested' : '');
+        tile.type = 'button';
+        tile.innerHTML = `
+          ${isSuggested ? '<div class="tile-suggested-chip">★ Suggested</div>' : ''}
+          <div class="tile-icon" aria-hidden="true">${cat.icon}</div>
+          <div class="tile-name">${cat.name}</div>
+          <div class="tile-desc">${cat.desc}</div>
+          <div class="tile-tag">${cat.tag}</div>`;
+        tile.addEventListener('click', () => {
+          window.location.href = 'help-center-record-producer.html';
+        });
+        categoryGrid.appendChild(tile);
+      });
+    }
+
+    /* ── Thinking text animation ─────────────────────────────────────────── */
+    const thinkingMessages = [
+      'Analyzing your request…',
+      'Matching to known issue types…',
+      'Checking for related cases…',
+      'Almost there…'
+    ];
+
+    /* ── State transitions ───────────────────────────────────────────────── */
+    function goToLoading(text) {
+      thinkingEcho.textContent = text;
+      thinkingText.textContent = thinkingMessages[0];
+      stateInitial.hidden = true;
+      stateLoading.hidden = false;
+      stateResults.hidden = true;
+
+      let msgIdx = 0;
+      const msgInterval = setInterval(() => {
+        msgIdx++;
+        if (msgIdx < thinkingMessages.length) {
+          thinkingText.textContent = thinkingMessages[msgIdx];
+        }
+      }, 600);
+
+      setTimeout(() => {
+        clearInterval(msgInterval);
+        goToResults(text);
+      }, 2200);
+    }
+
+    function goToResults(text) {
+      let categoryId, showDeflect;
+      if (activeScenario) {
+        categoryId  = activeScenario.category;
+        showDeflect = activeScenario.deflect;
+      } else {
+        categoryId  = classify(text);
+        showDeflect = false;
+      }
+
+      resultsEcho.textContent = text;
+      buildGrid(categoryId);
+
+      // Reset state from any prior run
+      deflectPanel.classList.remove('is-collapsed');
+      categorySection.classList.remove('is-visible');
+
+      if (showDeflect) {
+        // Gate: show deflection first, tiles hidden
+        deflectPanel.hidden = false;
+      } else {
+        // No deflection: skip to tiles immediately
+        deflectPanel.hidden = true;
+        categorySection.classList.add('is-visible');
+      }
+
+      stateLoading.hidden = true;
+      stateResults.hidden = false;
+      activeScenario = null;
+    }
+
+    // "Select an issue type →" — collapse panel, reveal tiles
+    document.getElementById('btn-deflect-dismiss').addEventListener('click', () => {
+      deflectPanel.classList.add('is-collapsed');
+      // Small delay so collapse transition starts before tiles slide in
+      setTimeout(() => {
+        categorySection.classList.add('is-visible');
+        categorySection.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      }, 300);
+    });
+
+    // "Review again" — expand deflection, collapse tiles (mutual exclusion)
+    document.getElementById('btn-deflect-expand').addEventListener('click', () => {
+      categorySection.classList.remove('is-visible');
+      setTimeout(() => {
+        deflectPanel.classList.remove('is-collapsed');
+        deflectPanel.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      }, 200);
+    });
+
+    // "You asked" strip — click to go back and re-edit
+    const resultsContext = document.getElementById('results-context');
+    function goBackToEdit() {
+      // Reset results state
+      deflectPanel.hidden = true;
+      deflectPanel.classList.remove('is-collapsed');
+      categorySection.classList.remove('is-visible');
+      stateResults.hidden = true;
+      // Return to initial state with text pre-filled
+      stateInitial.hidden = false;
+      intakeText.focus();
+      intakeText.setSelectionRange(intakeText.value.length, intakeText.value.length);
+    }
+    resultsContext.addEventListener('click', goBackToEdit);
+    resultsContext.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); goBackToEdit(); }
+    });
+
+    btnAnalyze.addEventListener('click', () => {
+      const text = intakeText.value.trim();
+      if (!text) {
+        intakeText.focus();
+        return;
+      }
+      goToLoading(text);
+    });
+
+    intakeText.addEventListener('input', () => { activeScenario = null; });
+
+    intakeText.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' && (e.ctrlKey || e.metaKey)) {
+        btnAnalyze.click();
+      }
+    });
+
+    /* ── Nav scroll shadow ───────────────────────────────────────────────── */
+    const navBar = document.getElementById('nav-bar');
+    window.addEventListener('scroll', () => {
+      navBar.classList.toggle('scrolled', window.scrollY > 0);
+    }, { passive: true });
+  </script>
+
+  <!-- ── Prototype nav ─────────────────────────────────────────────────────── -->
+  <style>
+    .proto-nav { position: fixed; bottom: 20px; left: 20px; z-index: 9999; }
+    .proto-nav__btn { display: inline-flex; align-items: center; gap: 6px; padding: 7px 12px; background: rgba(255,255,255,0.92); border: 1px solid rgba(0,0,0,0.12); border-radius: 20px; box-shadow: 0 2px 8px rgba(0,0,0,0.12); font-family: -apple-system, BlinkMacSystemFont, "Inter", sans-serif; font-size: 12px; font-weight: 600; color: #555; text-decoration: none; cursor: pointer; backdrop-filter: blur(6px); transition: background 0.15s, color 0.15s, box-shadow 0.15s; }
+    .proto-nav__btn:hover { background: #fff; color: #111; box-shadow: 0 3px 12px rgba(0,0,0,0.18); }
+    .proto-nav__btn svg { flex-shrink: 0; }
+  </style>
+  <div class="proto-nav">
+    <a class="proto-nav__btn" href="/">
+      <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M1 6L6 1.5L11 6" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M2.5 5V10.5H5V7.5H7V10.5H9.5V5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+      All pages
+    </a>
+  </div>
+
+</body>
+</html>

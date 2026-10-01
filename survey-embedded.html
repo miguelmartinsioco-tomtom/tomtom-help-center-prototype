@@ -1,0 +1,1368 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Customer Survey — TomTom Help Center</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <!-- Gilroy → Nunito Bold substitute; Proxima Nova → Inter body substitute -->
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+
+  <style>
+    /* ─── Playbook Design Tokens ─────────────────────────────────────────── */
+    :root {
+      /* Surface */
+      --ui-surface-0:           #FFFFFF;
+      --ui-surface-1:           #F2F2F2;
+      --ui-surface-2:           #E5E5E5;
+      --ui-surface-3:           #CCCCCC;
+      --ui-surface-high-em:     #333333;
+      --ui-surface-primary:     #000000;
+      --ui-surface-brand-red:   #DF1B12;
+      --ui-surface-info-accent: #F5F8FA;
+      --ui-surface-disabled-base-em:  #F2F2F2;
+      --ui-surface-disabled-light-em: #E5E5E5;
+
+      /* Text */
+      --ui-text-high-em:              #000000;
+      --ui-text-med-em:               #5C5C5C;
+      --ui-text-low-em:               #959595;
+      --ui-text-disabled:             #B2B2B2;
+      --ui-text-white:                #FFFFFF;
+      --ui-text-primary-on-base:      #000000;
+      --ui-text-red-on-base:          #DF1B12;
+
+      /* Border */
+      --ui-border-base-em:            #F2F2F2;
+      --ui-border-low-em:             #E5E5E5;
+      --ui-border-med-em:             #CCCCCC;
+      --ui-border-high-em:            #B2B2B2;
+      --ui-border-primary-high-em:    #000000;
+      --ui-border-red-high-em:        #DF1B12;
+
+      /* Outline */
+      --ui-outline-focus-primary:     drop-shadow(0 0 4px #004B7F);
+
+      /* Elevation */
+      --ui-elevation-e0: none;
+      --ui-elevation-e1: 0px 1px 2px -1px rgba(17,12,34,0.08);
+      --ui-elevation-e2: 0px 2px 4px -2px rgba(17,12,34,0.12);
+      --ui-elevation-e3: 0px 6px 16px -6px rgba(17,12,34,0.1);
+      --ui-elevation-e4: 0px 16px 20px -8px rgba(17,12,34,0.1);
+
+      /* Corner radius */
+      --ui-radius-sm:   5px;
+      --ui-radius-md:   10px;
+      --ui-radius-xl:   40px;
+
+      --ui-font-heading: 'Gilroy', 'Nunito', 'Segoe UI', sans-serif;
+      --ui-font-body:    'Proxima Nova', 'Inter', 'Segoe UI', sans-serif;
+    }
+
+    /* ─── Reset & Base ───────────────────────────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html, body {
+      height: 100%;
+      font-family: var(--ui-font-body);
+      font-size: 16px;
+      color: var(--ui-text-high-em);
+      background: var(--ui-surface-1);
+    }
+
+    body {
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
+
+    /* ─── Slim brand bar ─────────────────────────────────────────────────── */
+    .brand-bar {
+      width: 100%;
+      height: 56px;
+      background: var(--ui-surface-0);
+      border-bottom: 1px solid var(--ui-border-low-em);
+      display: flex;
+      align-items: center;
+      padding: 0 32px;
+      flex-shrink: 0;
+    }
+
+    a { color: inherit; text-decoration: none; }
+    button { cursor: pointer; border: none; background: none; font: inherit; }
+
+    /* ─── Navigation Bar ─────────────────────────────────────────────────── */
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+    }
+
+    .nav-bar {
+      width: 100%;
+      height: 80px;
+      background: var(--ui-surface-0);
+      border-bottom: 1px solid var(--ui-border-base-em);
+      box-shadow: none;
+      transition: box-shadow 0.15s ease;
+    }
+
+    .nav-bar.scrolled {
+      box-shadow: var(--ui-elevation-e1);
+    }
+
+    .nav-bar__inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      max-width: 1600px;
+      height: 100%;
+      margin: 0 auto;
+      padding: 0 80px;
+      position: relative;
+    }
+
+    .nav-bar__left {
+      display: flex;
+      align-items: center;
+      gap: 24px;
+      flex-shrink: 0;
+      padding-right: 24px;
+    }
+
+    .nav-bar__logo-group {
+      display: flex;
+      align-items: center;
+      gap: 24px;
+      text-decoration: none;
+    }
+
+    .nav-bar__logo-img {
+      display: block;
+      width: 125px;
+      height: 24px;
+      object-fit: contain;
+    }
+
+    .nav-bar__logo-sep {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 1px;
+      height: 28px;
+      background: var(--ui-border-low-em);
+      flex-shrink: 0;
+    }
+
+    .nav-bar__product-name {
+      font-family: var(--ui-font-heading);
+      font-weight: 700;
+      font-size: 20px;
+      line-height: 24px;
+      color: var(--ui-text-primary-on-base);
+      white-space: nowrap;
+    }
+
+    .nav-bar__tabs {
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      align-items: center;
+      height: 100%;
+      gap: 0;
+      list-style: none;
+    }
+
+    .nav-bar__tab {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      height: 80px;
+      padding: 0 16px;
+      font-family: var(--ui-font-heading);
+      font-weight: 700;
+      font-size: 14px;
+      line-height: 20px;
+      color: var(--ui-text-high-em);
+      border-bottom: 2px solid transparent;
+      text-decoration: none;
+      transition: border-color 0.15s, color 0.15s;
+      white-space: nowrap;
+    }
+
+    .nav-bar__tab:hover { color: var(--ui-surface-brand-red); }
+
+    .nav-bar__tab.active { border-bottom-color: var(--ui-surface-brand-red); }
+
+    .nav-bar__tab:focus-visible {
+      outline: none;
+      filter: var(--ui-outline-focus-primary);
+    }
+
+    .nav-bar__right {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      flex-shrink: 0;
+    }
+
+    .nav-icon-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 44px;
+      height: 44px;
+      border-radius: var(--ui-radius-xl);
+      background: var(--ui-surface-0);
+      border: 1px solid var(--ui-border-low-em);
+      color: var(--ui-text-high-em);
+      transition: background 0.15s;
+    }
+
+    .nav-icon-btn:hover { background: var(--ui-surface-1); }
+
+    .nav-icon-btn:focus-visible {
+      outline: none;
+      filter: var(--ui-outline-focus-primary);
+    }
+
+    .nav-icon-btn svg { width: 20px; height: 20px; }
+
+    .nav-avatar {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 44px;
+      height: 44px;
+      border-radius: 9999px;
+      background: #004B7F;
+      color: var(--ui-text-white);
+      font-family: var(--ui-font-heading);
+      font-weight: 700;
+      font-size: 14px;
+      line-height: 1;
+      border: 2px solid var(--ui-text-white);
+      cursor: pointer;
+      transition: box-shadow 0.15s;
+    }
+
+    .nav-avatar:hover { box-shadow: var(--ui-elevation-e1); }
+
+    .nav-avatar:focus-visible {
+      outline: none;
+      filter: var(--ui-outline-focus-primary);
+    }
+
+    /* ─── Breadcrumb ─────────────────────────────────────────────────────── */
+    .breadcrumb-bar {
+      width: 100%;
+      height: 56px;
+      background: var(--ui-surface-0);
+      border-bottom: 1px solid var(--ui-border-base-em);
+    }
+
+    .breadcrumb-bar__inner {
+      display: flex;
+      align-items: center;
+      max-width: 1600px;
+      height: 100%;
+      margin: 0 auto;
+      padding: 0 80px;
+      gap: 4px;
+    }
+
+    .breadcrumb-link {
+      font-family: var(--ui-font-body);
+      font-size: 14px;
+      line-height: 20px;
+      color: var(--ui-text-med-em);
+      text-decoration: none;
+      transition: color 0.15s;
+    }
+
+    .breadcrumb-link:hover {
+      color: var(--ui-text-high-em);
+      text-decoration: underline;
+    }
+
+    .breadcrumb-link:focus-visible {
+      outline: none;
+      filter: var(--ui-outline-focus-primary);
+    }
+
+    .breadcrumb-sep {
+      display: flex;
+      align-items: center;
+      color: var(--ui-text-low-em);
+    }
+
+    .breadcrumb-sep svg { width: 16px; height: 16px; }
+
+    .breadcrumb-current {
+      font-family: var(--ui-font-body);
+      font-size: 14px;
+      line-height: 20px;
+      color: var(--ui-text-high-em);
+      font-weight: 600;
+    }
+
+    /* ─── Main Content ───────────────────────────────────────────────────── */
+    .main-content {
+      flex: 1;
+      width: 100%;
+    }
+
+    .page-hero {
+      width: 100%;
+      background: var(--ui-surface-0);
+      border-bottom: 1px solid var(--ui-border-base-em);
+      padding: 32px 0;
+    }
+
+    .page-hero__inner {
+      max-width: 1600px;
+      margin: 0 auto;
+      padding: 0 80px;
+    }
+
+    .page-hero__title {
+      font-family: var(--ui-font-heading);
+      font-weight: 700;
+      font-size: 32px;
+      line-height: 40px;
+      letter-spacing: -1px;
+      color: var(--ui-text-high-em);
+      margin-bottom: 8px;
+    }
+
+    .page-hero__desc {
+      font-family: var(--ui-font-body);
+      font-size: 16px;
+      line-height: 24px;
+      color: var(--ui-text-med-em);
+      max-width: 640px;
+    }
+
+    .content-body {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 40px 24px 80px;
+    }
+
+    /* ─── Form Card ──────────────────────────────────────────────────────── */
+    .form-card {
+      background: var(--ui-surface-0);
+      border: 1px solid var(--ui-border-low-em);
+      border-radius: var(--ui-radius-md);
+      box-shadow: var(--ui-elevation-e1);
+      overflow: hidden;
+    }
+
+    .form-card__header {
+      padding: 24px 32px;
+      border-bottom: 1px solid var(--ui-border-base-em);
+    }
+
+    .form-card__title {
+      font-family: var(--ui-font-heading);
+      font-weight: 700;
+      font-size: 20px;
+      line-height: 24px;
+      color: var(--ui-text-high-em);
+      margin-bottom: 4px;
+    }
+
+    .form-card__subtitle {
+      font-family: var(--ui-font-body);
+      font-size: 14px;
+      line-height: 20px;
+      color: var(--ui-text-med-em);
+      margin-bottom: 16px;
+    }
+
+    /* Ensure hidden attribute wins over any display rules */
+    [hidden] { display: none !important; }
+
+    .form-card__body {
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+    }
+
+    /* ─── Survey Section Accordion (Horizon OOB pattern, Playbook styled) ─── */
+    .survey-section {
+      border-top: 1px solid var(--ui-border-base-em);
+    }
+
+    .survey-section__header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      width: 100%;
+      padding: 20px 32px;
+      background: var(--ui-surface-1);
+      border: none;
+      cursor: pointer;
+      text-align: left;
+      transition: background 0.15s;
+    }
+
+    .survey-section__header:hover {
+      background: var(--ui-surface-2);
+    }
+
+    .survey-section__header[aria-expanded="true"] {
+      background: var(--ui-surface-0);
+    }
+
+    .survey-section__header[aria-expanded="true"]:hover {
+      background: var(--ui-surface-1);
+    }
+
+    .survey-section__header:focus-visible {
+      outline: none;
+      filter: var(--ui-outline-focus-primary);
+    }
+
+    .survey-section__header-left {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .survey-section__title {
+      font-family: var(--ui-font-heading);
+      font-weight: 700;
+      font-size: 16px;
+      line-height: 24px;
+      color: var(--ui-text-high-em);
+    }
+
+    .survey-section__count {
+      font-family: var(--ui-font-body);
+      font-size: 13px;
+      line-height: 18px;
+      color: var(--ui-text-med-em);
+    }
+
+    .survey-section__chevron {
+      flex-shrink: 0;
+      width: 20px;
+      height: 20px;
+      color: var(--ui-text-med-em);
+      transition: transform 0.2s ease;
+    }
+
+    .survey-section__header[aria-expanded="true"] .survey-section__chevron {
+      transform: rotate(180deg);
+    }
+
+    .survey-section__body {
+      padding: 28px 32px;
+      display: flex;
+      flex-direction: column;
+      gap: 28px;
+      border-top: 1px solid var(--ui-border-base-em);
+    }
+
+    .survey-section__body[hidden] {
+      display: none;
+    }
+
+    /* ─── Survey Question Block ──────────────────────────────────────────── */
+    .survey-question {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .survey-question__meta {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .survey-question__number {
+      font-family: var(--ui-font-body);
+      font-size: 12px;
+      font-weight: 600;
+      line-height: 16px;
+      color: var(--ui-text-low-em);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .survey-question__text {
+      font-family: var(--ui-font-heading);
+      font-weight: 700;
+      font-size: 16px;
+      line-height: 24px;
+      color: var(--ui-text-high-em);
+    }
+
+    .survey-question__hint {
+      font-family: var(--ui-font-body);
+      font-size: 13px;
+      line-height: 18px;
+      color: var(--ui-text-med-em);
+    }
+
+    .required-mark {
+      color: var(--ui-surface-brand-red);
+      margin-left: 2px;
+    }
+
+    /* ─── Survey Options (radio + checkbox) ─────────────────────────────── */
+    .survey-options {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    /* Horizontal layout variant — used for Likert/scale questions */
+    .survey-options--horizontal {
+      flex-direction: row;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 24px;
+      margin-top: 12px;
+      margin-bottom: 4px;
+    }
+
+    .survey-options--horizontal .survey-option {
+      flex: 0 0 auto;
+      width: 88px;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      gap: 8px;
+      text-align: center;
+      padding: 8px 4px;
+    }
+
+    /* Each option is a full-width card-style row — Horizon OOB pattern */
+    .survey-option {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 14px 16px;
+      border: 1px solid var(--ui-border-low-em);
+      border-radius: var(--ui-radius-md);
+      cursor: pointer;
+      transition: background 0.15s, border-color 0.15s;
+      position: relative;
+      user-select: none;
+    }
+
+    .survey-option:hover {
+      background: var(--ui-surface-1);
+      border-color: var(--ui-border-med-em);
+    }
+
+    /* Selected option — card border goes black */
+    .survey-option:has(input:checked) {
+      border-color: var(--ui-border-primary-high-em);
+    }
+
+    .survey-option:has(input:checked):hover {
+      background: var(--ui-surface-1);
+    }
+
+    /* Hide native browser input */
+    .survey-option input[type="radio"],
+    .survey-option input[type="checkbox"] {
+      position: absolute;
+      opacity: 0;
+      width: 0;
+      height: 0;
+      pointer-events: none;
+    }
+
+    /* Custom visual indicator — shared base */
+    .survey-option__indicator {
+      width: 20px;
+      height: 20px;
+      flex-shrink: 0;
+      border: 1.5px solid var(--ui-border-low-em);
+      background: var(--ui-surface-0);
+      transition: border-color 0.15s, background 0.15s;
+      position: relative;
+    }
+
+    /* Radio + checkbox options — no container border (OOB SN / Playbook: bare indicator + label) */
+    .survey-option--radio,
+    .survey-option--checkbox {
+      border-color: transparent;
+      padding: 6px 4px;
+    }
+
+    .survey-option--radio:hover,
+    .survey-option--checkbox:hover {
+      background: transparent;
+      border-color: transparent;
+    }
+
+    .survey-option--radio:has(input:checked),
+    .survey-option--checkbox:has(input:checked) {
+      border-color: transparent;
+    }
+
+    .survey-option--radio:has(input:checked):hover,
+    .survey-option--checkbox:has(input:checked):hover {
+      background: transparent;
+    }
+
+    /* Radio: circle shape */
+    .survey-option--radio .survey-option__indicator {
+      border-radius: 50%;
+    }
+
+    /* Checkbox: rounded square per Playbook radius-sm */
+    .survey-option--checkbox .survey-option__indicator {
+      border-radius: var(--ui-radius-sm);
+    }
+
+    /* Checked radio: black outer ring + brand-red inner dot */
+    .survey-option input[type="radio"]:checked ~ .survey-option__indicator {
+      border-color: var(--ui-border-primary-high-em);
+    }
+
+    .survey-option input[type="radio"]:checked ~ .survey-option__indicator::after {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: var(--ui-surface-brand-red);
+    }
+
+    /* Checked checkbox: brand-red fill + white checkmark */
+    .survey-option input[type="checkbox"]:checked ~ .survey-option__indicator {
+      background: var(--ui-surface-brand-red);
+      border-color: var(--ui-surface-brand-red);
+    }
+
+    .survey-option input[type="checkbox"]:checked ~ .survey-option__indicator::after {
+      content: '';
+      position: absolute;
+      left: 5px;
+      top: 2px;
+      width: 6px;
+      height: 10px;
+      border: 2px solid #FFFFFF;
+      border-top: none;
+      border-left: none;
+      transform: rotate(45deg);
+    }
+
+    /* Option label text */
+    .survey-option__label {
+      font-family: var(--ui-font-body);
+      font-size: 14px;
+      line-height: 20px;
+      color: var(--ui-text-high-em);
+      flex: 1;
+    }
+
+    /* Keyboard focus ring on the label wrapper */
+    .survey-option:focus-within {
+      outline: none;
+      box-shadow: 0 0 0 3px rgba(0, 75, 127, 0.2);
+    }
+
+    /* ─── Text Input Field (Playbook md: 44px, radius-md, border-low-em) ── */
+    .field-group {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+    }
+
+    .field-label {
+      font-family: var(--ui-font-heading);
+      font-weight: 700;
+      font-size: 14px;
+      line-height: 20px;
+      color: var(--ui-text-high-em);
+      padding-left: 4px;
+      padding-bottom: 4px;
+    }
+
+    .input-field {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      width: 100%;
+      height: 44px;
+      padding: 0 12px;
+      background: var(--ui-surface-0);
+      border: 1px solid var(--ui-border-low-em);
+      border-radius: var(--ui-radius-md);
+      transition: border-color 0.15s;
+    }
+
+    .input-field:hover { border-color: var(--ui-border-med-em); }
+
+    .input-field:focus-within {
+      border-color: var(--ui-border-primary-high-em);
+    }
+
+    .input-field input {
+      flex: 1;
+      min-width: 0;
+      border: none;
+      outline: none;
+      background: transparent;
+      font-family: var(--ui-font-body);
+      font-size: 14px;
+      line-height: 20px;
+      color: var(--ui-text-high-em);
+    }
+
+    .input-field input::placeholder { color: var(--ui-text-med-em); }
+
+    .textarea-field {
+      width: 100%;
+      padding: 12px;
+      background: var(--ui-surface-0);
+      border: 1px solid var(--ui-border-low-em);
+      border-radius: var(--ui-radius-md);
+      transition: border-color 0.15s;
+    }
+
+    .textarea-field:hover { border-color: var(--ui-border-med-em); }
+
+    .textarea-field:focus-within { border-color: var(--ui-border-primary-high-em); }
+
+    .textarea-field textarea {
+      width: 100%;
+      border: none;
+      outline: none;
+      background: transparent;
+      font-family: var(--ui-font-body);
+      font-size: 14px;
+      line-height: 20px;
+      color: var(--ui-text-high-em);
+      resize: vertical;
+      min-height: 120px;
+    }
+
+    .textarea-field textarea::placeholder { color: var(--ui-text-med-em); }
+
+    .field-hint {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      padding-left: 4px;
+      padding-top: 6px;
+    }
+
+    .field-hint svg {
+      width: 14px;
+      height: 14px;
+      color: var(--ui-text-med-em);
+      flex-shrink: 0;
+    }
+
+    .field-hint span {
+      font-family: var(--ui-font-body);
+      font-size: 12px;
+      line-height: 16px;
+      color: var(--ui-text-med-em);
+    }
+
+    /* ─── Divider ────────────────────────────────────────────────────────── */
+    .form-divider {
+      border: none;
+      border-top: 1px solid var(--ui-border-base-em);
+    }
+
+    /* ─── Form Actions (Previous / Next) ────────────────────────────────── */
+    .form-actions {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 24px 32px;
+      border-top: 1px solid var(--ui-border-base-em);
+    }
+
+    .form-actions__right {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    /* ─── Survey confirmation state ──────────────────────────────────────── */
+    .survey-confirmation {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      padding: 64px 32px;
+      gap: 16px;
+    }
+
+    .survey-confirmation__icon {
+      margin-bottom: 8px;
+    }
+
+    .survey-confirmation__title {
+      font-family: var(--ui-font-family-heading);
+      font-size: 1.375rem;
+      font-weight: 700;
+      color: var(--ui-text-high-em);
+      margin: 0;
+    }
+
+    .survey-confirmation__message {
+      font-size: 0.9375rem;
+      color: var(--ui-text-med-em);
+      max-width: 420px;
+      line-height: 1.6;
+      margin: 0;
+    }
+
+    .survey-confirmation__return {
+      margin-top: 8px;
+      text-decoration: none;
+    }
+
+    /* ─── Buttons (Playbook) — pill radius 40px, Gilroy Bold ─────────────── */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      border-radius: var(--ui-radius-xl);
+      font-family: var(--ui-font-heading);
+      font-weight: 700;
+      font-size: 14px;
+      line-height: 20px;
+      transition: box-shadow 0.15s, background 0.15s;
+      cursor: pointer;
+      border: none;
+      white-space: nowrap;
+    }
+
+    .btn:focus-visible {
+      outline: none;
+      filter: var(--ui-outline-focus-primary);
+    }
+
+    .btn:disabled,
+    .btn[aria-disabled="true"] {
+      background: var(--ui-surface-disabled-light-em) !important;
+      color: var(--ui-text-disabled) !important;
+      border-color: transparent !important;
+      cursor: not-allowed;
+    }
+
+    .btn--md {
+      height: 44px;
+      min-width: 140px;
+      padding: 0 16px;
+    }
+
+    .btn--primary-default {
+      background: var(--ui-surface-brand-red);
+      color: var(--ui-text-white);
+    }
+
+    .btn--primary-default:hover:not(:disabled) {
+      box-shadow: var(--ui-elevation-e2);
+    }
+
+    .btn--secondary {
+      background: var(--ui-surface-0);
+      color: var(--ui-text-primary-on-base);
+      border: 1px solid var(--ui-border-low-em);
+    }
+
+    .btn--secondary:hover:not(:disabled) { background: var(--ui-surface-1); }
+
+    .btn--tertiary {
+      background: transparent;
+      color: var(--ui-text-primary-on-base);
+    }
+
+    .btn--tertiary:hover:not(:disabled) { background: var(--ui-surface-1); }
+
+    /* ─── Summary / Sidebar Card ─────────────────────────────────────────── */
+    .summary-card {
+      background: var(--ui-surface-0);
+      border: 1px solid var(--ui-border-low-em);
+      border-radius: var(--ui-radius-md);
+      box-shadow: var(--ui-elevation-e1);
+      overflow: hidden;
+      position: sticky;
+      top: 100px;
+    }
+
+    .summary-card__header {
+      padding: 20px 24px;
+      border-bottom: 1px solid var(--ui-border-base-em);
+    }
+
+    .summary-card__title {
+      font-family: var(--ui-font-heading);
+      font-weight: 700;
+      font-size: 16px;
+      line-height: 24px;
+      color: var(--ui-text-high-em);
+    }
+
+    .summary-card__body {
+      padding: 20px 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .summary-row {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .summary-row__label {
+      font-family: var(--ui-font-body);
+      font-size: 13px;
+      line-height: 18px;
+      color: var(--ui-text-med-em);
+      flex-shrink: 0;
+    }
+
+    .summary-row__value {
+      font-family: var(--ui-font-body);
+      font-size: 13px;
+      line-height: 18px;
+      color: var(--ui-text-high-em);
+      font-weight: 500;
+      text-align: right;
+    }
+
+    .summary-divider {
+      border: none;
+      border-top: 1px solid var(--ui-border-base-em);
+    }
+
+    .info-banner {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      padding: 14px 16px;
+      background: var(--ui-surface-info-accent);
+      border-radius: var(--ui-radius-sm);
+    }
+
+    .info-banner svg {
+      width: 16px;
+      height: 16px;
+      color: #004B7F;
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+
+    .info-banner p {
+      font-family: var(--ui-font-body);
+      font-size: 13px;
+      line-height: 18px;
+      color: #004B7F;
+    }
+
+    /* Progress tracker dots — same as record producer sidebar */
+    .progress-steps {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 16px 24px 20px;
+    }
+
+    .step {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-family: var(--ui-font-body);
+      font-size: 12px;
+      line-height: 16px;
+      color: var(--ui-text-med-em);
+    }
+
+    .step__dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--ui-border-med-em);
+      flex-shrink: 0;
+    }
+
+    .step.active .step__dot { background: var(--ui-surface-brand-red); }
+    .step.active { color: var(--ui-text-high-em); font-weight: 600; }
+    .step.done .step__dot { background: #00A65E; }
+
+    .step-sep {
+      flex: 1;
+      height: 1px;
+      background: var(--ui-border-low-em);
+    }
+
+    /* ─── Footer ─────────────────────────────────────────────────────────── */
+    .site-footer {
+      width: 100%;
+      height: 68px;
+      background: var(--ui-surface-primary);
+      border-top: 1px solid #222222;
+      flex-shrink: 0;
+    }
+
+    .site-footer__inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      max-width: 1600px;
+      height: 100%;
+      margin: 0 auto;
+      padding: 0 80px;
+    }
+
+    .site-footer__copyright {
+      font-family: var(--ui-font-body);
+      font-size: 12px;
+      line-height: 16px;
+      color: rgba(255,255,255,0.6);
+    }
+
+    .site-footer__links {
+      display: flex;
+      align-items: center;
+      gap: 24px;
+      list-style: none;
+    }
+
+    .site-footer__links a {
+      font-family: var(--ui-font-body);
+      font-size: 12px;
+      line-height: 16px;
+      color: rgba(255,255,255,0.6);
+      text-decoration: none;
+      transition: color 0.15s;
+    }
+
+    .site-footer__links a:hover { color: var(--ui-text-white); }
+
+    .site-footer__links a:focus-visible {
+      outline: 2px solid rgba(255,255,255,0.6);
+      outline-offset: 2px;
+      border-radius: 2px;
+    }
+
+    /* ─── Utility ─────────────────────────────────────────────────────────── */
+    .sr-only {
+      position: absolute;
+      width: 1px; height: 1px;
+      overflow: hidden;
+      clip: rect(0,0,0,0);
+      white-space: nowrap;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Slim TomTom brand bar -->
+  <div class="brand-bar" role="banner">
+    <svg width="105" height="20" viewBox="0 0 125 24.0001" fill="none" xmlns="http://www.w3.org/2000/svg" aria-label="TomTom">
+      <path fill-rule="evenodd" clip-rule="evenodd" d="M121.444 22.1291H124.999L125 13.0887C125 12.5 124.925 12.0676 124.859 11.7567C124.836 11.6515 124.816 11.5678 124.794 11.4864C124.092 8.90785 121.577 7.123 118.811 7.23655C117.528 7.29129 116.321 7.76661 115.225 8.64915L115.085 8.76169L114.945 8.64915C113.849 7.76661 112.642 7.29129 111.359 7.23655C108.59 7.12114 106.078 8.90785 105.376 11.4864C105.354 11.568 105.334 11.652 105.311 11.7577C105.242 12.0876 105.17 12.5049 105.17 13.0887L105.171 22.1291H108.726V13.242C108.726 11.9833 109.753 10.9593 111.015 10.9593C112.266 10.9593 113.292 11.9744 113.303 13.222C113.304 13.2264 113.304 13.2342 113.304 13.242V22.1291H116.866L116.867 13.2212C116.878 11.9743 117.904 10.9593 119.155 10.9593C120.417 10.9593 121.444 11.9833 121.444 13.242V22.1291Z" fill="#000000"/>
+      <path fill-rule="evenodd" clip-rule="evenodd" d="M95.1744 18.5808C93.0256 18.5808 91.2773 16.8374 91.2773 14.6945C91.2773 12.5516 93.0256 10.8081 95.1744 10.8081C97.3234 10.8081 99.0716 12.5516 99.0716 14.6945C99.0716 16.8374 97.3234 18.5808 95.1744 18.5808M95.1741 7.25977C91.0633 7.25977 87.7188 10.5949 87.7188 14.6944C87.7188 18.794 91.0633 22.1292 95.1741 22.1292C99.285 22.1292 102.629 18.794 102.629 14.6944C102.629 10.5949 99.285 7.25977 95.1741 7.25977" fill="#000000"/>
+      <path fill-rule="evenodd" clip-rule="evenodd" d="M82.9062 22.1324H87.5178L85.4546 18.5805C85.0074 18.58 83.1692 18.5776 83.026 18.5776C81.8791 18.5776 80.8802 17.7512 80.7994 16.7353C80.7887 16.6023 80.7791 16.4376 80.7716 16.2566V10.9014H85.4537L87.2833 7.69089H80.7716V1.86743L77.2102 4.32446V7.52023H74.9629V11.072H77.21L77.2134 15.9215C77.2134 15.9236 77.211 16.1479 77.2144 16.2125L77.228 16.4827C77.3498 18.8376 78.5126 20.5715 80.684 21.6355C81.2652 21.9202 81.908 22.0772 82.7073 22.1294L82.9062 22.1291V22.1324Z" fill="#000000"/>
+      <path fill-rule="evenodd" clip-rule="evenodd" d="M68.864 22.129H72.4192L72.4198 13.0887C72.4198 12.5 72.3444 12.0676 72.2785 11.7567C72.2556 11.6514 72.2355 11.5677 72.2135 11.4863C71.512 8.90779 68.9973 7.12293 66.2307 7.23648C64.9479 7.29123 63.7413 7.76655 62.6447 8.64909L62.5049 8.76163L62.3651 8.64909C61.2685 7.76655 60.0619 7.29123 58.7788 7.23648C56.01 7.12108 53.4979 8.90779 52.7962 11.4863C52.774 11.5679 52.754 11.6519 52.731 11.7577C52.6613 12.0875 52.5898 12.5049 52.5898 13.0887L52.5905 22.129H56.1459V13.2419C56.1459 11.9833 57.1727 10.9593 58.4348 10.9593C59.6856 10.9593 60.7119 11.9743 60.7229 13.222C60.7233 13.2264 60.7238 13.2342 60.7238 13.2419V22.129H64.2861L64.2869 13.2211C64.2978 11.9743 65.3242 10.9593 66.5749 10.9593C67.8372 10.9593 68.864 11.9833 68.864 13.2419V22.129Z" fill="#000000"/>
+      <path fill-rule="evenodd" clip-rule="evenodd" d="M42.5944 18.5808C40.4454 18.5808 38.6973 16.8374 38.6973 14.6945C38.6973 12.5516 40.4454 10.8081 42.5944 10.8081C44.7434 10.8081 46.4915 12.5516 46.4915 14.6945C46.4915 16.8374 44.7434 18.5808 42.5944 18.5808M42.594 7.25977C38.4831 7.25977 35.1387 10.5949 35.1387 14.6944C35.1387 18.794 38.4831 22.1292 42.594 22.1292C46.7049 22.1292 50.0493 18.794 50.0493 14.6944C50.0493 10.5949 46.7049 7.25977 42.594 7.25977" fill="#000000"/>
+      <path fill-rule="evenodd" clip-rule="evenodd" d="M30.3261 22.1325H34.9378L32.8745 18.5805C32.4273 18.58 30.5891 18.5777 30.4459 18.5777C29.299 18.5777 28.3001 17.7512 28.2193 16.7354C28.2086 16.6024 28.199 16.4376 28.1915 16.2567V10.9014H32.8736L34.7033 7.69095H28.1915V1.86749L24.6301 4.32452V7.52029H22.3828V11.0721H24.6299L24.6333 15.9216C24.6333 15.9236 24.6309 16.148 24.6343 16.2126L24.6479 16.4827C24.7697 18.8377 25.9326 20.5715 28.1039 21.6355C28.6851 21.9203 29.328 22.0772 30.1272 22.1295L30.3261 22.1291V22.1325Z" fill="#000000"/>
+      <path fill-rule="evenodd" clip-rule="evenodd" d="M8.28764 24.0001L11.4639 18.5139H5.11133L8.28764 24.0001Z" fill="#DF1B12"/>
+      <path fill-rule="evenodd" clip-rule="evenodd" d="M8.28694 12.5839C5.89835 12.5839 3.95522 10.6459 3.95522 8.26409C3.95522 5.88209 5.89835 3.94415 8.28694 3.94415C10.6755 3.94415 12.6187 5.88209 12.6187 8.26409C12.6187 10.6459 10.6755 12.5839 8.28694 12.5839M8.28694 0C3.7175 0 0 3.70725 0 8.26409C0 12.8208 3.7175 16.528 8.28694 16.528C12.8564 16.528 16.5739 12.8208 16.5739 8.26409C16.5739 3.70725 12.8564 0 8.28694 0" fill="#DF1B12"/>
+    </svg>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════════════════════════
+       MAIN CONTENT — Customer Survey
+       Structure follows ServiceNow Horizon OOB survey layout
+       Styled with TomTom Playbook design system
+  ══════════════════════════════════════════════════════════════════════════ -->
+  <main class="main-content">
+
+    <div class="content-body">
+
+      <form class="form-card" novalidate>
+
+          <!-- Card header: survey title + description + progress bar -->
+          <div class="form-card__header">
+            <h1 class="form-card__title">Sample test survey</h1>
+            <p class="form-card__subtitle">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Your feedback helps us improve. This survey takes approximately 3 minutes to complete.</p>
+
+          </div>
+
+          <div class="form-card__body">
+
+            <!-- ── Section 1: Your Experience (expanded by default) ────────── -->
+            <div class="survey-section">
+              <button
+                type="button"
+                class="survey-section__header"
+                aria-expanded="true"
+                aria-controls="section-1-body"
+                id="section-1-header"
+              >
+                <div class="survey-section__header-left">
+                  <span class="survey-section__title">Your Experience</span>
+                  <span class="survey-section__count">2 questions</span>
+                </div>
+                <svg class="survey-section__chevron" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                  <path d="M5 7.5L10 12.5L15 7.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              </button>
+
+              <div class="survey-section__body" id="section-1-body" role="region" aria-labelledby="section-1-header">
+
+                <!-- Q1: Radio buttons -->
+                <fieldset class="survey-question" style="border:none;padding:0;">
+                  <legend class="survey-question__meta">
+                    <span class="survey-question__number">Question 1</span>
+                    <span class="survey-question__text">
+                      Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor?
+                      <span class="required-mark" aria-label="required">*</span>
+                    </span>
+                    <span class="survey-question__hint">Select one option that best describes your experience.</span>
+                  </legend>
+                  <div class="survey-options survey-options--horizontal" role="radiogroup">
+                    <label class="survey-option survey-option--radio">
+                      <input type="radio" name="q1" value="strongly-agree" />
+                      <span class="survey-option__indicator" aria-hidden="true"></span>
+                      <span class="survey-option__label">Strongly agree</span>
+                    </label>
+                    <label class="survey-option survey-option--radio">
+                      <input type="radio" name="q1" value="agree" checked />
+                      <span class="survey-option__indicator" aria-hidden="true"></span>
+                      <span class="survey-option__label">Agree</span>
+                    </label>
+                    <label class="survey-option survey-option--radio">
+                      <input type="radio" name="q1" value="neutral" />
+                      <span class="survey-option__indicator" aria-hidden="true"></span>
+                      <span class="survey-option__label">Neutral</span>
+                    </label>
+                    <label class="survey-option survey-option--radio">
+                      <input type="radio" name="q1" value="disagree" />
+                      <span class="survey-option__indicator" aria-hidden="true"></span>
+                      <span class="survey-option__label">Disagree</span>
+                    </label>
+                    <label class="survey-option survey-option--radio">
+                      <input type="radio" name="q1" value="strongly-disagree" />
+                      <span class="survey-option__indicator" aria-hidden="true"></span>
+                      <span class="survey-option__label">Strongly disagree</span>
+                    </label>
+                  </div>
+                </fieldset>
+
+                <hr class="form-divider" />
+
+                <!-- Q2: Checkboxes -->
+                <fieldset class="survey-question" style="border:none;padding:0;">
+                  <legend class="survey-question__meta">
+                    <span class="survey-question__number">Question 2</span>
+                    <span class="survey-question__text">
+                      Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Which of the following apply to your recent experience?
+                      <span class="required-mark" aria-label="required">*</span>
+                    </span>
+                    <span class="survey-question__hint">Select all that apply.</span>
+                  </legend>
+                  <div class="survey-options">
+                    <label class="survey-option survey-option--checkbox">
+                      <input type="checkbox" name="q2" value="a" checked />
+                      <span class="survey-option__indicator" aria-hidden="true"></span>
+                      <span class="survey-option__label">Ut enim ad minim veniam, quis nostrud exercitation</span>
+                    </label>
+                    <label class="survey-option survey-option--checkbox">
+                      <input type="checkbox" name="q2" value="b" />
+                      <span class="survey-option__indicator" aria-hidden="true"></span>
+                      <span class="survey-option__label">Ullamco laboris nisi ut aliquip ex ea commodo</span>
+                    </label>
+                    <label class="survey-option survey-option--checkbox">
+                      <input type="checkbox" name="q2" value="c" checked />
+                      <span class="survey-option__indicator" aria-hidden="true"></span>
+                      <span class="survey-option__label">Duis aute irure dolor in reprehenderit in voluptate</span>
+                    </label>
+                    <label class="survey-option survey-option--checkbox">
+                      <input type="checkbox" name="q2" value="d" />
+                      <span class="survey-option__indicator" aria-hidden="true"></span>
+                      <span class="survey-option__label">Excepteur sint occaecat cupidatat non proident</span>
+                    </label>
+                    <label class="survey-option survey-option--checkbox">
+                      <input type="checkbox" name="q2" value="e" />
+                      <span class="survey-option__indicator" aria-hidden="true"></span>
+                      <span class="survey-option__label">Sunt in culpa qui officia deserunt mollit anim id est</span>
+                    </label>
+                  </div>
+                </fieldset>
+
+              </div><!-- /section-1-body -->
+            </div><!-- /section 1 -->
+
+            <!-- ── Section 2: Additional Feedback (collapsed by default) ───── -->
+            <div class="survey-section">
+              <button
+                type="button"
+                class="survey-section__header"
+                aria-expanded="false"
+                aria-controls="section-2-body"
+                id="section-2-header"
+              >
+                <div class="survey-section__header-left">
+                  <span class="survey-section__title">Additional Feedback</span>
+                  <span class="survey-section__count">2 questions</span>
+                </div>
+                <svg class="survey-section__chevron" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                  <path d="M5 7.5L10 12.5L15 7.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              </button>
+
+              <div class="survey-section__body" id="section-2-body" role="region" aria-labelledby="section-2-header" hidden>
+
+                <!-- Q3: Rating scale -->
+                <fieldset class="survey-question" style="border:none;padding:0;">
+                  <legend class="survey-question__meta">
+                    <span class="survey-question__number">Question 3</span>
+                    <span class="survey-question__text">
+                      How would you rate your overall satisfaction with the support you received?
+                      <span class="required-mark" aria-label="required">*</span>
+                    </span>
+                    <span class="survey-question__hint">Select one rating from 1 (Very poor) to 5 (Excellent).</span>
+                  </legend>
+                  <div class="survey-options" role="radiogroup">
+                    <label class="survey-option survey-option--radio">
+                      <input type="radio" name="q3" value="1" />
+                      <span class="survey-option__indicator" aria-hidden="true"></span>
+                      <span class="survey-option__label">1 — Very poor</span>
+                    </label>
+                    <label class="survey-option survey-option--radio">
+                      <input type="radio" name="q3" value="2" />
+                      <span class="survey-option__indicator" aria-hidden="true"></span>
+                      <span class="survey-option__label">2 — Poor</span>
+                    </label>
+                    <label class="survey-option survey-option--radio">
+                      <input type="radio" name="q3" value="3" />
+                      <span class="survey-option__indicator" aria-hidden="true"></span>
+                      <span class="survey-option__label">3 — Neutral</span>
+                    </label>
+                    <label class="survey-option survey-option--radio">
+                      <input type="radio" name="q3" value="4" />
+                      <span class="survey-option__indicator" aria-hidden="true"></span>
+                      <span class="survey-option__label">4 — Good</span>
+                    </label>
+                    <label class="survey-option survey-option--radio">
+                      <input type="radio" name="q3" value="5" checked />
+                      <span class="survey-option__indicator" aria-hidden="true"></span>
+                      <span class="survey-option__label">5 — Excellent</span>
+                    </label>
+                  </div>
+                </fieldset>
+
+                <hr class="form-divider" />
+
+                <!-- Q4: Open text -->
+                <div class="survey-question">
+                  <div class="survey-question__meta">
+                    <span class="survey-question__number">Question 4</span>
+                    <span class="survey-question__text">
+                      Pellentesque habitant morbi tristique senectus et netus. Is there anything else you would like to share?
+                    </span>
+                    <span class="survey-question__hint">Optional — your response will remain confidential.</span>
+                  </div>
+                  <div class="field-group">
+                    <label class="field-label sr-only" for="q4-text">Additional comments</label>
+                    <div class="textarea-field">
+                      <textarea
+                        id="q4-text"
+                        name="q4"
+                        placeholder="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Share any additional thoughts or suggestions here…"
+                        rows="5"
+                        aria-describedby="q4-hint"
+                      ></textarea>
+                    </div>
+                    <div class="field-hint" id="q4-hint">
+                      <svg viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                        <circle cx="7" cy="7" r="6" stroke="currentColor" stroke-width="1.2"/>
+                        <path d="M7 6.5V10" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/>
+                        <circle cx="7" cy="4.5" r="0.6" fill="currentColor"/>
+                      </svg>
+                      <span>Maximum 1,000 characters.</span>
+                    </div>
+                  </div>
+                </div>
+
+              </div><!-- /section-2-body -->
+            </div><!-- /section 2 -->
+
+          </div><!-- /form-card__body -->
+
+          <!-- Survey navigation — Save & Exit left, Submit right -->
+          <div class="form-actions">
+            <button type="button" class="btn btn--secondary btn--md">Save &amp; exit</button>
+            <button type="submit" class="btn btn--primary-default btn--md">
+              Submit
+            </button>
+          </div>
+
+          <!-- Confirmation state — hidden until Submit is clicked -->
+          <div class="survey-confirmation" id="survey-confirmation" hidden>
+            <div class="survey-confirmation__icon" aria-hidden="true">
+              <svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="24" cy="24" r="24" fill="#F0FAF0"/>
+                <path d="M14 24.5L20.5 31L34 17" stroke="#1A7F37" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </div>
+            <h2 class="survey-confirmation__title">Thank you for your feedback!</h2>
+            <p class="survey-confirmation__message">Your response has been recorded. We appreciate you taking the time to complete this survey.</p>
+          </div>
+
+        </form>
+
+    </div><!-- /content-body -->
+  </main>
+
+  <script>
+
+    // Accordion toggle
+    document.querySelectorAll('.survey-section__header').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const expanded = btn.getAttribute('aria-expanded') === 'true';
+        const body = document.getElementById(btn.getAttribute('aria-controls'));
+        btn.setAttribute('aria-expanded', String(!expanded));
+        body.hidden = expanded;
+      });
+    });
+
+    // Reset to survey state on every load (handles bfcache restores)
+    window.addEventListener('pageshow', function() {
+      document.getElementById('survey-confirmation').hidden = true;
+      document.querySelector('.form-card__header').hidden = false;
+      document.querySelector('.form-card__body').hidden = false;
+      document.querySelector('.form-actions').hidden = false;
+    });
+
+    // Submit — swap form content for inline confirmation (OOB SN behaviour)
+    document.querySelector('.form-card').addEventListener('submit', function(e) {
+      e.preventDefault();
+      this.querySelector('.form-card__header').hidden = true;
+      this.querySelector('.form-card__body').hidden = true;
+      this.querySelector('.form-actions').hidden = true;
+      this.querySelector('#survey-confirmation').hidden = false;
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+  </script>
+
+</body>
+</html>

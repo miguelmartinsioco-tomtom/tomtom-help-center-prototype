@@ -1,0 +1,1294 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>IT Support — TomTom Help Center</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <!-- Gilroy is not on Google Fonts; using Nunito as the closest open substitute for Bold headings.
+       Proxima Nova → Inter as body substitute. In production, load from your licensed font CDN. -->
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+
+  <style>
+    /* ─── Playbook Design Tokens ─────────────────────────────────────────── */
+    :root {
+      /* Surface */
+      --ui-surface-0:           #FFFFFF;
+      --ui-surface-1:           #F2F2F2;
+      --ui-surface-2:           #E5E5E5;
+      --ui-surface-3:           #CCCCCC;
+      --ui-surface-high-em:     #333333;
+      --ui-surface-primary:     #000000;
+      --ui-surface-brand-red:   #DF1B12;
+      --ui-surface-info-accent: #F5F8FA;
+      --ui-surface-disabled-base-em:  #F2F2F2;
+      --ui-surface-disabled-light-em: #E5E5E5;
+
+      /* Text */
+      --ui-text-high-em:              #000000;
+      --ui-text-med-em:               #5C5C5C;
+      --ui-text-low-em:               #959595;
+      --ui-text-disabled:             #B2B2B2;
+      --ui-text-white:                #FFFFFF;
+      --ui-text-primary-on-base:      #000000;
+      --ui-text-red-on-base:          #DF1B12;
+
+      /* Border */
+      --ui-border-base-em:            #F2F2F2;
+      --ui-border-low-em:             #E5E5E5;
+      --ui-border-med-em:             #CCCCCC;
+      --ui-border-high-em:            #B2B2B2;
+      --ui-border-primary-high-em:    #000000;
+      --ui-border-red-high-em:        #DF1B12;
+
+      /* Outline */
+      --ui-outline-focus-primary:     drop-shadow(0 0 4px #004B7F);
+
+      /* Elevation */
+      --ui-elevation-e0: none;
+      --ui-elevation-e1: 0px 1px 2px -1px rgba(17,12,34,0.08);
+      --ui-elevation-e2: 0px 2px 4px -2px rgba(17,12,34,0.12);
+      --ui-elevation-e3: 0px 6px 16px -6px rgba(17,12,34,0.1);
+      --ui-elevation-e4: 0px 16px 20px -8px rgba(17,12,34,0.1);
+
+      /* Corner radius */
+      --ui-radius-sm:   5px;
+      --ui-radius-md:   10px;
+      --ui-radius-xl:   40px;
+
+      --ui-font-heading: 'Gilroy', 'Nunito', 'Segoe UI', sans-serif;
+      --ui-font-body:    'Proxima Nova', 'Inter', 'Segoe UI', sans-serif;
+    }
+
+    /* ─── Reset & Base ───────────────────────────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html, body {
+      height: 100%;
+      font-family: var(--ui-font-body);
+      font-size: 16px;
+      color: var(--ui-text-high-em);
+      background: var(--ui-surface-1);
+    }
+
+    body {
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
+
+    a { color: inherit; text-decoration: none; }
+    button { cursor: pointer; border: none; background: none; font: inherit; }
+
+    /* ─── Navigation Bar ─────────────────────────────────────────────────── */
+    /* Header is sticky so both nav and breadcrumb stay pinned throughout scroll */
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+    }
+
+    .nav-bar {
+      width: 100%;
+      height: 80px;
+      background: var(--ui-surface-0);
+      border-bottom: 1px solid var(--ui-border-base-em);
+      box-shadow: none;
+      transition: box-shadow 0.15s ease;
+    }
+
+    .nav-bar.scrolled {
+      box-shadow: var(--ui-elevation-e1);
+    }
+
+    .nav-bar__inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      max-width: 1600px;
+      height: 100%;
+      margin: 0 auto;
+      padding: 0 80px;
+      position: relative;
+    }
+
+    /* Left: Logo */
+    .nav-bar__left {
+      display: flex;
+      align-items: center;
+      gap: 24px;
+      flex-shrink: 0;
+      padding-right: 24px;
+    }
+
+    .nav-bar__logo-group {
+      display: flex;
+      align-items: center;
+      gap: 24px;
+      text-decoration: none;
+    }
+
+    .nav-bar__logo-img {
+      display: block;
+      width: 125px;
+      height: 24px;
+      object-fit: contain;
+    }
+
+    .nav-bar__logo-mark {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .nav-bar__logo-text {
+      font-family: 'Gilroy', 'Nunito', 'Segoe UI', sans-serif;
+      font-weight: 800;
+      font-size: 16px;
+      line-height: 1;
+      color: #000000;
+      letter-spacing: -0.4px;
+      text-transform: lowercase;
+    }
+
+    .nav-bar__logo-sep {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 1px;
+      height: 28px;
+      background: var(--ui-border-low-em);
+      flex-shrink: 0;
+    }
+
+    .nav-bar__product-name {
+      font-family: var(--ui-font-heading);
+      font-weight: 700;
+      font-size: 20px;
+      line-height: 24px;
+      color: var(--ui-text-primary-on-base);
+      white-space: nowrap;
+    }
+
+    /* Center: Tab nav — absolute-centered per spec */
+    .nav-bar__tabs {
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      align-items: center;
+      height: 100%;
+      gap: 0;
+      list-style: none;
+    }
+
+    .nav-bar__tab {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      height: 80px;
+      padding: 0 16px;
+      font-family: var(--ui-font-heading);
+      font-weight: 700;
+      font-size: 14px;
+      line-height: 20px;
+      color: var(--ui-text-high-em);
+      border-bottom: 2px solid transparent;
+      text-decoration: none;
+      transition: border-color 0.15s, color 0.15s;
+      white-space: nowrap;
+    }
+
+    .nav-bar__tab:hover {
+      color: var(--ui-surface-brand-red);
+    }
+
+    .nav-bar__tab.active {
+      border-bottom-color: var(--ui-surface-brand-red);
+    }
+
+    .nav-bar__tab:focus-visible {
+      outline: none;
+      filter: var(--ui-outline-focus-primary);
+    }
+
+    /* Right: icon buttons + avatar */
+    .nav-bar__right {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      flex-shrink: 0;
+    }
+
+    .nav-icon-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 44px;
+      height: 44px;
+      border-radius: var(--ui-radius-xl);   /* 40px pill per Figma spec */
+      background: var(--ui-surface-0);
+      border: 1px solid var(--ui-border-low-em);
+      color: var(--ui-text-high-em);
+      transition: background 0.15s;
+    }
+
+    .nav-icon-btn:hover {
+      background: var(--ui-surface-1);
+    }
+
+    .nav-icon-btn:focus-visible {
+      outline: none;
+      filter: var(--ui-outline-focus-primary);
+    }
+
+    .nav-icon-btn svg {
+      width: 20px;
+      height: 20px;
+    }
+
+    /* Avatar — surface/info (#004B7F) bg, 2px white border per Figma */
+    .nav-avatar {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 44px;
+      height: 44px;
+      border-radius: 9999px;
+      background: #004B7F;
+      color: var(--ui-text-white);
+      font-family: var(--ui-font-heading);
+      font-weight: 700;
+      font-size: 14px;
+      line-height: 1;
+      border: 2px solid var(--ui-text-white);
+      cursor: pointer;
+      transition: box-shadow 0.15s;
+    }
+
+    .nav-avatar:hover {
+      box-shadow: var(--ui-elevation-e1);
+    }
+
+    .nav-avatar:focus-visible {
+      outline: none;
+      filter: var(--ui-outline-focus-primary);
+    }
+
+    /* ─── Breadcrumb ─────────────────────────────────────────────────────── */
+    .breadcrumb-bar {
+      width: 100%;
+      height: 56px;
+      background: var(--ui-surface-0);
+      border-bottom: 1px solid var(--ui-border-base-em);
+    }
+
+    .breadcrumb-bar__inner {
+      display: flex;
+      align-items: center;
+      max-width: 1600px;
+      height: 100%;
+      margin: 0 auto;
+      padding: 0 80px;
+      gap: 4px;
+    }
+
+    .breadcrumb-link {
+      font-family: var(--ui-font-body);
+      font-size: 14px;
+      line-height: 20px;
+      color: var(--ui-text-med-em);
+      text-decoration: none;
+      transition: color 0.15s;
+    }
+
+    .breadcrumb-link:hover {
+      color: var(--ui-text-high-em);
+      text-decoration: underline;
+    }
+
+    .breadcrumb-link:focus-visible {
+      outline: none;
+      filter: var(--ui-outline-focus-primary);
+    }
+
+    .breadcrumb-sep {
+      display: flex;
+      align-items: center;
+      color: var(--ui-text-low-em);
+    }
+
+    .breadcrumb-sep svg {
+      width: 16px;
+      height: 16px;
+    }
+
+    .breadcrumb-current {
+      font-family: var(--ui-font-body);
+      font-size: 14px;
+      line-height: 20px;
+      color: var(--ui-text-high-em);
+      font-weight: 600;
+    }
+
+    /* ─── Main Content ───────────────────────────────────────────────────── */
+    .main-content {
+      flex: 1;
+      width: 100%;
+    }
+
+    /* Page hero / title header */
+    .page-hero {
+      width: 100%;
+      background: var(--ui-surface-0);
+      border-bottom: 1px solid var(--ui-border-base-em);
+      padding: 32px 0;
+    }
+
+    .page-hero__inner {
+      max-width: 1600px;
+      margin: 0 auto;
+      padding: 0 80px;
+    }
+
+    .page-hero__category {
+      font-family: var(--ui-font-body);
+      font-size: 12px;
+      line-height: 16px;
+      color: var(--ui-text-med-em);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      font-weight: 600;
+      margin-bottom: 8px;
+    }
+
+    .page-hero__title {
+      font-family: var(--ui-font-heading);
+      font-weight: 700;
+      font-size: 32px;
+      line-height: 40px;
+      letter-spacing: -1px;
+      color: var(--ui-text-high-em);
+      margin-bottom: 8px;
+    }
+
+    .page-hero__desc {
+      font-family: var(--ui-font-body);
+      font-size: 16px;
+      line-height: 24px;
+      color: var(--ui-text-med-em);
+      max-width: 640px;
+    }
+
+    /* Content body */
+    .content-body {
+      max-width: 1600px;
+      margin: 0 auto;
+      padding: 40px 80px 80px;
+      display: grid;
+      grid-template-columns: 1fr 360px;
+      gap: 32px;
+      align-items: start;
+    }
+
+    /* ─── Form Card ──────────────────────────────────────────────────────── */
+    .form-card {
+      background: var(--ui-surface-0);
+      border: 1px solid var(--ui-border-low-em);
+      border-radius: var(--ui-radius-md);
+      box-shadow: var(--ui-elevation-e1);
+      overflow: hidden;
+    }
+
+    .form-card__header {
+      padding: 24px 32px;
+      border-bottom: 1px solid var(--ui-border-base-em);
+    }
+
+    .form-card__title {
+      font-family: var(--ui-font-heading);
+      font-weight: 700;
+      font-size: 20px;
+      line-height: 24px;
+      color: var(--ui-text-high-em);
+    }
+
+    .form-card__subtitle {
+      font-family: var(--ui-font-body);
+      font-size: 14px;
+      line-height: 20px;
+      color: var(--ui-text-med-em);
+      margin-top: 4px;
+    }
+
+    .form-card__body {
+      padding: 32px;
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+    }
+
+    /* Section label */
+    .form-section-label {
+      font-family: var(--ui-font-heading);
+      font-weight: 700;
+      font-size: 16px;
+      line-height: 24px;
+      color: var(--ui-text-high-em);
+      padding-bottom: 16px;
+      border-bottom: 1px solid var(--ui-border-base-em);
+      margin-bottom: 4px;
+    }
+
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+
+    /* ─── InputField (Playbook md size) ──────────────────────────────────── */
+    /* height: 44px, border-radius: 10px, border: border-low-em (#E5E5E5) */
+    .field-group {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+    }
+
+    .field-label {
+      font-family: var(--ui-font-heading);
+      font-weight: 700;
+      font-size: 14px;
+      line-height: 20px;
+      color: var(--ui-text-high-em);
+      padding-left: 4px;
+      padding-bottom: 4px;
+    }
+
+    .field-label .required {
+      color: var(--ui-surface-brand-red);
+      margin-left: 2px;
+    }
+
+    .input-field {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      width: 100%;
+      height: 44px;
+      padding: 0 12px;
+      background: var(--ui-surface-0);
+      border: 1px solid var(--ui-border-low-em);
+      border-radius: var(--ui-radius-md);
+      transition: border-color 0.15s;
+    }
+
+    .input-field:hover {
+      border-color: var(--ui-border-med-em);
+    }
+
+    .input-field:focus-within {
+      border-color: var(--ui-border-primary-high-em);
+      outline: 2px solid transparent;
+    }
+
+    .input-field input,
+    .input-field select {
+      flex: 1;
+      min-width: 0;
+      border: none;
+      outline: none;
+      background: transparent;
+      font-family: var(--ui-font-body);
+      font-size: 14px;
+      line-height: 20px;
+      color: var(--ui-text-high-em);
+      appearance: none;
+      -webkit-appearance: none;
+    }
+
+    .input-field input::placeholder {
+      color: var(--ui-text-med-em);
+    }
+
+    .input-field input:focus,
+    .input-field select:focus {
+      outline: none;
+    }
+
+    .input-field .field-icon {
+      color: var(--ui-text-med-em);
+      display: flex;
+      align-items: center;
+      flex-shrink: 0;
+    }
+
+    .input-field .field-icon svg {
+      width: 16px;
+      height: 16px;
+    }
+
+    /* Textarea */
+    .textarea-field {
+      display: flex;
+      align-items: flex-start;
+      width: 100%;
+      padding: 12px;
+      background: var(--ui-surface-0);
+      border: 1px solid var(--ui-border-low-em);
+      border-radius: var(--ui-radius-md);
+      transition: border-color 0.15s;
+    }
+
+    .textarea-field:hover {
+      border-color: var(--ui-border-med-em);
+    }
+
+    .textarea-field:focus-within {
+      border-color: var(--ui-border-primary-high-em);
+    }
+
+    .textarea-field textarea {
+      flex: 1;
+      border: none;
+      outline: none;
+      background: transparent;
+      font-family: var(--ui-font-body);
+      font-size: 14px;
+      line-height: 20px;
+      color: var(--ui-text-high-em);
+      resize: vertical;
+      min-height: 120px;
+    }
+
+    .textarea-field textarea::placeholder {
+      color: var(--ui-text-med-em);
+    }
+
+    /* Dropdown select wrapper */
+    .select-field {
+      position: relative;
+    }
+
+    .select-field .input-field {
+      cursor: pointer;
+    }
+
+    .select-field select {
+      cursor: pointer;
+      padding-right: 24px;
+    }
+
+    .select-chevron {
+      position: absolute;
+      right: 12px;
+      top: 50%;
+      transform: translateY(-50%);
+      pointer-events: none;
+      color: var(--ui-text-med-em);
+    }
+
+    .select-chevron svg {
+      width: 16px;
+      height: 16px;
+    }
+
+    /* Hint text */
+    .field-hint {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      padding-left: 4px;
+      padding-top: 6px;
+    }
+
+    .field-hint svg {
+      width: 14px;
+      height: 14px;
+      color: var(--ui-text-med-em);
+      flex-shrink: 0;
+    }
+
+    .field-hint span {
+      font-family: var(--ui-font-body);
+      font-size: 12px;
+      line-height: 16px;
+      color: var(--ui-text-med-em);
+    }
+
+    /* Divider */
+    .form-divider {
+      border: none;
+      border-top: 1px solid var(--ui-border-base-em);
+    }
+
+    /* Attachment zone */
+    .attachment-zone {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 16px;
+      background: var(--ui-surface-1);
+      border: 1px dashed var(--ui-border-med-em);
+      border-radius: var(--ui-radius-md);
+      cursor: pointer;
+      transition: background 0.15s, border-color 0.15s;
+    }
+
+    .attachment-zone:hover {
+      background: var(--ui-surface-2);
+      border-color: var(--ui-border-high-em);
+    }
+
+    .attachment-zone svg {
+      width: 24px;
+      height: 24px;
+      color: var(--ui-text-med-em);
+      flex-shrink: 0;
+    }
+
+    .attachment-zone__text {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .attachment-zone__primary {
+      font-family: var(--ui-font-body);
+      font-size: 14px;
+      line-height: 20px;
+      color: var(--ui-text-high-em);
+      font-weight: 600;
+    }
+
+    .attachment-zone__primary span {
+      color: var(--ui-surface-brand-red);
+      text-decoration: underline;
+    }
+
+    .attachment-zone__secondary {
+      font-family: var(--ui-font-body);
+      font-size: 12px;
+      line-height: 16px;
+      color: var(--ui-text-med-em);
+    }
+
+    /* Form actions */
+    .form-actions {
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      gap: 12px;
+      padding: 24px 32px;
+      border-top: 1px solid var(--ui-border-base-em);
+    }
+
+    /* ─── Buttons (Playbook) ─────────────────────────────────────────────── */
+    /* Pill radius (40px), Gilroy Bold 14/20 */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      border-radius: var(--ui-radius-xl);
+      font-family: var(--ui-font-heading);
+      font-weight: 700;
+      font-size: 14px;
+      line-height: 20px;
+      transition: box-shadow 0.15s, background 0.15s;
+      cursor: pointer;
+      border: none;
+      white-space: nowrap;
+    }
+
+    .btn:focus-visible {
+      outline: none;
+      filter: var(--ui-outline-focus-primary);
+    }
+
+    .btn:disabled,
+    .btn[aria-disabled="true"] {
+      background: var(--ui-surface-disabled-light-em) !important;
+      color: var(--ui-text-disabled) !important;
+      border-color: transparent !important;
+      cursor: not-allowed;
+    }
+
+    /* md size: 44px height */
+    .btn--md {
+      height: 44px;
+      min-width: 140px;
+      padding: 0 16px;
+    }
+
+    /* primary-default: brand-red bg, white text */
+    .btn--primary-default {
+      background: var(--ui-surface-brand-red);
+      color: var(--ui-text-white);
+    }
+
+    .btn--primary-default:hover:not(:disabled) {
+      box-shadow: var(--ui-elevation-e2);
+    }
+
+    /* secondary: white bg, black text, border */
+    .btn--secondary {
+      background: var(--ui-surface-0);
+      color: var(--ui-text-primary-on-base);
+      border: 1px solid var(--ui-border-low-em);
+    }
+
+    .btn--secondary:hover:not(:disabled) {
+      background: var(--ui-surface-1);
+    }
+
+    /* tertiary: transparent bg, black text */
+    .btn--tertiary {
+      background: transparent;
+      color: var(--ui-text-primary-on-base);
+    }
+
+    .btn--tertiary:hover:not(:disabled) {
+      background: var(--ui-surface-1);
+    }
+
+    /* ─── Order Summary Card ─────────────────────────────────────────────── */
+    .summary-card {
+      background: var(--ui-surface-0);
+      border: 1px solid var(--ui-border-low-em);
+      border-radius: var(--ui-radius-md);
+      box-shadow: var(--ui-elevation-e1);
+      overflow: hidden;
+      position: sticky;
+      top: 100px;
+    }
+
+    .summary-card__header {
+      padding: 20px 24px;
+      border-bottom: 1px solid var(--ui-border-base-em);
+    }
+
+    .summary-card__title {
+      font-family: var(--ui-font-heading);
+      font-weight: 700;
+      font-size: 16px;
+      line-height: 24px;
+      color: var(--ui-text-high-em);
+    }
+
+    .summary-card__body {
+      padding: 20px 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .summary-row {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .summary-row__label {
+      font-family: var(--ui-font-body);
+      font-size: 13px;
+      line-height: 18px;
+      color: var(--ui-text-med-em);
+      flex-shrink: 0;
+    }
+
+    .summary-row__value {
+      font-family: var(--ui-font-body);
+      font-size: 13px;
+      line-height: 18px;
+      color: var(--ui-text-high-em);
+      font-weight: 500;
+      text-align: right;
+    }
+
+    /* Info banner */
+    .info-banner {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      padding: 14px 16px;
+      background: var(--ui-surface-info-accent);
+      border-radius: var(--ui-radius-sm);
+    }
+
+    .info-banner svg {
+      width: 16px;
+      height: 16px;
+      color: #004B7F;
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+
+    .info-banner p {
+      font-family: var(--ui-font-body);
+      font-size: 13px;
+      line-height: 18px;
+      color: #004B7F;
+    }
+
+    .summary-divider {
+      border: none;
+      border-top: 1px solid var(--ui-border-base-em);
+    }
+
+    .summary-card__footer {
+      padding: 16px 24px;
+      border-top: 1px solid var(--ui-border-base-em);
+    }
+
+    .summary-card__footer .btn {
+      width: 100%;
+    }
+
+    /* Progress tracker */
+    .progress-steps {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 0 24px 20px;
+    }
+
+    .step {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-family: var(--ui-font-body);
+      font-size: 12px;
+      line-height: 16px;
+      color: var(--ui-text-med-em);
+    }
+
+    .step__dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--ui-border-med-em);
+      flex-shrink: 0;
+    }
+
+    .step.active .step__dot {
+      background: var(--ui-surface-brand-red);
+    }
+
+    .step.active {
+      color: var(--ui-text-high-em);
+      font-weight: 600;
+    }
+
+    .step.done .step__dot {
+      background: #00A65E;
+    }
+
+    .step-sep {
+      flex: 1;
+      height: 1px;
+      background: var(--ui-border-low-em);
+    }
+
+    /* ─── Footer ─────────────────────────────────────────────────────────── */
+    /* Spec: 1600×68px, at page bottom */
+    .site-footer {
+      width: 100%;
+      height: 68px;
+      background: var(--ui-surface-primary);
+      border-top: 1px solid #222222;
+      flex-shrink: 0;
+    }
+
+    .site-footer__inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      max-width: 1600px;
+      height: 100%;
+      margin: 0 auto;
+      padding: 0 80px;
+    }
+
+    .site-footer__copyright {
+      font-family: var(--ui-font-body);
+      font-size: 12px;
+      line-height: 16px;
+      color: rgba(255,255,255,0.6);
+    }
+
+    .site-footer__links {
+      display: flex;
+      align-items: center;
+      gap: 24px;
+      list-style: none;
+    }
+
+    .site-footer__links a {
+      font-family: var(--ui-font-body);
+      font-size: 12px;
+      line-height: 16px;
+      color: rgba(255,255,255,0.6);
+      text-decoration: none;
+      transition: color 0.15s;
+    }
+
+    .site-footer__links a:hover {
+      color: var(--ui-text-white);
+    }
+
+    .site-footer__links a:focus-visible {
+      outline: 2px solid rgba(255,255,255,0.6);
+      outline-offset: 2px;
+      border-radius: 2px;
+    }
+
+    /* ─── Utility ─────────────────────────────────────────────────────────── */
+    .sr-only {
+      position: absolute;
+      width: 1px; height: 1px;
+      overflow: hidden;
+      clip: rect(0,0,0,0);
+      white-space: nowrap;
+    }
+
+    /* ─── Scroll shadow on nav ───────────────────────────────────────────── */
+  </style>
+</head>
+<body>
+
+  <!-- ═══════════════════════════════════════════════════════════════════════
+       NAVIGATION BAR — TomTom B2B Help Center (production)
+
+  <!-- ═══════════════════════════════════════════════════════════════════════
+       MAIN CONTENT — Record Producer form body
+       Layout from ServiceNow Employee Center OOB template
+  ══════════════════════════════════════════════════════════════════════════ -->
+  <main class="main-content">
+
+    <!-- Page hero / title header -->
+    <div class="page-hero">
+      <div class="page-hero__inner">
+        <h1 class="page-hero__title">Report an IT Issue</h1>
+        <p class="page-hero__desc">Use this form to report technical issues, request hardware, or get help with software. Our IT team typically responds within 1 business day.</p>
+      </div>
+    </div>
+
+    <!-- Two-column layout: form + sidebar -->
+    <div class="content-body">
+
+      <!-- ── Left: Main Form ─────────────────────────────────────────────── -->
+      <div>
+        <form class="form-card" novalidate>
+
+          <div class="form-card__header">
+            <h2 class="form-card__title">Request Details</h2>
+            <p class="form-card__subtitle">Fields marked with <span style="color:var(--ui-surface-brand-red)">*</span> are required.</p>
+          </div>
+
+          <div class="form-card__body">
+
+            <!-- Section: Contact Information -->
+            <p class="form-section-label">Contact Information</p>
+
+            <div class="form-row">
+              <!-- Requester name -->
+              <div class="field-group">
+                <label class="field-label" for="req-name">
+                  Requested for <span class="required">*</span>
+                </label>
+                <div class="input-field">
+                  <span class="field-icon" aria-hidden="true">
+                    <svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <circle cx="8" cy="5" r="3" stroke="currentColor" stroke-width="1.4"/>
+                      <path d="M2 14C2 11.24 4.69 9 8 9C11.31 9 14 11.24 14 14" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/>
+                    </svg>
+                  </span>
+                  <input id="req-name" type="text" placeholder="John Doe" value="John Doe" autocomplete="name" />
+                </div>
+              </div>
+
+              <!-- Department -->
+              <div class="field-group">
+                <label class="field-label" for="req-dept">Department</label>
+                <div class="select-field">
+                  <div class="input-field">
+                    <select id="req-dept" aria-label="Department">
+                      <option value="">Select department</option>
+                      <option value="engineering" selected>Engineering</option>
+                      <option value="product">Product</option>
+                      <option value="design">Design</option>
+                      <option value="hr">Human Resources</option>
+                      <option value="finance">Finance</option>
+                    </select>
+                  </div>
+                  <span class="select-chevron" aria-hidden="true">
+                    <svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <path d="M4 6L8 10L12 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                  </span>
+                </div>
+              </div>
+            </div>
+
+            <hr class="form-divider" />
+
+            <!-- Section: Issue Information -->
+            <p class="form-section-label">Issue Information</p>
+
+            <!-- Short description -->
+            <div class="field-group">
+              <label class="field-label" for="short-desc">
+                Short description <span class="required">*</span>
+              </label>
+              <div class="input-field">
+                <input
+                  id="short-desc"
+                  type="text"
+                  placeholder="e.g. My laptop won't connect to the office Wi-Fi"
+                  maxlength="160"
+                />
+              </div>
+              <div class="field-hint">
+                <svg viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                  <circle cx="7" cy="7" r="6" stroke="currentColor" stroke-width="1.2"/>
+                  <path d="M7 6.5V10" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/>
+                  <circle cx="7" cy="4.5" r="0.6" fill="currentColor"/>
+                </svg>
+                <span>Keep it brief — one sentence works best.</span>
+              </div>
+            </div>
+
+            <div class="form-row">
+              <!-- Category -->
+              <div class="field-group">
+                <label class="field-label" for="category">
+                  Category <span class="required">*</span>
+                </label>
+                <div class="select-field">
+                  <div class="input-field">
+                    <select id="category" aria-label="Issue category">
+                      <option value="">Select a category</option>
+                      <option value="network">Network &amp; Connectivity</option>
+                      <option value="hardware">Hardware</option>
+                      <option value="software">Software</option>
+                      <option value="access">Access &amp; Permissions</option>
+                      <option value="other">Other</option>
+                    </select>
+                  </div>
+                  <span class="select-chevron" aria-hidden="true">
+                    <svg viewBox="0 0 16 16" fill="none">
+                      <path d="M4 6L8 10L12 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                  </span>
+                </div>
+              </div>
+
+              <!-- Urgency -->
+              <div class="field-group">
+                <label class="field-label" for="urgency">
+                  Urgency <span class="required">*</span>
+                </label>
+                <div class="select-field">
+                  <div class="input-field">
+                    <select id="urgency" aria-label="Urgency level">
+                      <option value="">Select urgency</option>
+                      <option value="1">1 – Critical (blocking work)</option>
+                      <option value="2">2 – High</option>
+                      <option value="3" selected>3 – Medium</option>
+                      <option value="4">4 – Low</option>
+                    </select>
+                  </div>
+                  <span class="select-chevron" aria-hidden="true">
+                    <svg viewBox="0 0 16 16" fill="none">
+                      <path d="M4 6L8 10L12 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                  </span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Full description -->
+            <div class="field-group">
+              <label class="field-label" for="description">
+                Description <span class="required">*</span>
+              </label>
+              <div class="textarea-field">
+                <textarea
+                  id="description"
+                  placeholder="Describe the issue in detail. Include steps to reproduce, error messages you see, and what you have already tried."
+                  rows="6"
+                  aria-describedby="description-hint"
+                ></textarea>
+              </div>
+              <div class="field-hint" id="description-hint">
+                <svg viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                  <circle cx="7" cy="7" r="6" stroke="currentColor" stroke-width="1.2"/>
+                  <path d="M7 6.5V10" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/>
+                  <circle cx="7" cy="4.5" r="0.6" fill="currentColor"/>
+                </svg>
+                <span>The more detail you provide, the faster we can help.</span>
+              </div>
+            </div>
+
+            <!-- Affected device -->
+            <div class="field-group">
+              <label class="field-label" for="device">Affected device or asset tag</label>
+              <div class="input-field">
+                <span class="field-icon" aria-hidden="true">
+                  <svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <rect x="2" y="3" width="12" height="8" rx="1" stroke="currentColor" stroke-width="1.4"/>
+                    <path d="M5 13H11" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/>
+                    <path d="M8 11V13" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/>
+                  </svg>
+                </span>
+                <input id="device" type="text" placeholder="e.g. MacBook Pro – ASSET-2847" />
+              </div>
+            </div>
+
+            <hr class="form-divider" />
+
+            <!-- Section: Attachments -->
+            <p class="form-section-label">Attachments</p>
+
+            <label class="attachment-zone" for="file-upload" tabindex="0">
+              <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                <path d="M12 16V8M12 8L9 11M12 8L15 11" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M7 20H5C3.9 20 3 19.1 3 18V6C3 4.9 3.9 4 5 4H14L21 11V18C21 19.1 20.1 20 19 20H17" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>
+              </svg>
+              <div class="attachment-zone__text">
+                <span class="attachment-zone__primary">
+                  <span>Browse files</span> or drag and drop
+                </span>
+                <span class="attachment-zone__secondary">Screenshots, logs — PNG, JPG, PDF up to 10 MB each</span>
+              </div>
+              <input id="file-upload" type="file" multiple accept="image/*,.pdf,.log,.txt" class="sr-only" />
+            </label>
+
+          </div><!-- /form-card__body -->
+
+          <!-- Form actions -->
+          <div class="form-actions">
+            <button type="button" class="btn btn--tertiary btn--md">Save draft</button>
+            <button type="button" class="btn btn--secondary btn--md">Cancel</button>
+            <button type="submit" class="btn btn--primary-default btn--md">Submit request</button>
+          </div>
+
+        </form>
+      </div>
+
+      <!-- ── Right: Order/Summary Sidebar ───────────────────────────────── -->
+      <aside>
+        <div class="summary-card">
+          <div class="summary-card__header">
+            <h3 class="summary-card__title">Request summary</h3>
+          </div>
+
+          <!-- Progress steps -->
+          <div class="progress-steps" style="padding-top:16px;">
+            <div class="step done">
+              <div class="step__dot"></div>
+              <span>Details</span>
+            </div>
+            <div class="step-sep"></div>
+            <div class="step active">
+              <div class="step__dot"></div>
+              <span>Review</span>
+            </div>
+            <div class="step-sep"></div>
+            <div class="step">
+              <div class="step__dot"></div>
+              <span>Confirm</span>
+            </div>
+          </div>
+
+          <div class="summary-card__body">
+            <div class="summary-row">
+              <span class="summary-row__label">Requested for</span>
+              <span class="summary-row__value">John Doe</span>
+            </div>
+            <div class="summary-row">
+              <span class="summary-row__label">Department</span>
+              <span class="summary-row__value">Engineering</span>
+            </div>
+
+            <hr class="summary-divider" />
+
+            <div class="summary-row">
+              <span class="summary-row__label">Category</span>
+              <span class="summary-row__value">—</span>
+            </div>
+            <div class="summary-row">
+              <span class="summary-row__label">Urgency</span>
+              <span class="summary-row__value">3 – Medium</span>
+            </div>
+            <div class="summary-row">
+              <span class="summary-row__label">Description</span>
+              <span class="summary-row__value">Not yet filled in</span>
+            </div>
+
+            <hr class="summary-divider" />
+
+            <div class="info-banner">
+              <svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                <circle cx="8" cy="8" r="6.5" stroke="currentColor" stroke-width="1.3"/>
+                <path d="M8 7.5V11" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/>
+                <circle cx="8" cy="5.5" r="0.65" fill="currentColor"/>
+              </svg>
+              <p>Typical response time is <strong>1 business day</strong>. Critical issues are handled within 4 hours.</p>
+            </div>
+          </div>
+
+          <div class="summary-card__footer">
+            <button type="submit" form="req-form" class="btn btn--primary-default btn--md">
+              Submit request
+            </button>
+          </div>
+        </div>
+
+        <!-- Need help block -->
+        <div style="padding: 20px 0;">
+          <p style="font-family:var(--ui-font-body);font-size:13px;line-height:18px;color:var(--ui-text-med-em);margin-bottom:8px;">
+            Need help filling this out?
+          </p>
+          <a href="#" style="font-family:var(--ui-font-body);font-size:13px;line-height:18px;color:var(--ui-text-high-em);font-weight:600;text-decoration:underline;">
+            Contact IT directly →
+          </a>
+        </div>
+      </aside>
+
+    </div><!-- /content-body -->
+  </main>
+
+  <!-- ═══════════════════════════════════════════════════════════════════════
+
+  <script>
+    // Scroll shadow on nav bar — elevation-e0 → elevation-e1 after 8px
+    const navBar = document.getElementById('nav-bar');
+    const onScroll = () => {
+      navBar.classList.toggle('scrolled', window.scrollY > 8);
+    };
+    window.addEventListener('scroll', onScroll, { passive: true });
+  </script>
+
+
+  <!-- ── Prototype nav ─────────────────────────────────────────────────────── -->
+  <style>
+    .proto-nav { position: fixed; bottom: 20px; left: 20px; z-index: 9999; }
+    .proto-nav__btn { display: inline-flex; align-items: center; gap: 6px; padding: 7px 12px; background: rgba(255,255,255,0.92); border: 1px solid rgba(0,0,0,0.12); border-radius: 20px; box-shadow: 0 2px 8px rgba(0,0,0,0.12); font-family: -apple-system, BlinkMacSystemFont, "Inter", sans-serif; font-size: 12px; font-weight: 600; color: #555; text-decoration: none; cursor: pointer; backdrop-filter: blur(6px); transition: background 0.15s, color 0.15s, box-shadow 0.15s; }
+    .proto-nav__btn:hover { background: #fff; color: #111; box-shadow: 0 3px 12px rgba(0,0,0,0.18); }
+    .proto-nav__btn svg { flex-shrink: 0; }
+  </style>
+  <div class="proto-nav">
+    <a class="proto-nav__btn" href="/">
+      <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M1 6L6 1.5L11 6" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M2.5 5V10.5H5V7.5H7V10.5H9.5V5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+      All pages
+    </a>
+  </div>
+
+</body>
+</html>

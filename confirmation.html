@@ -1,0 +1,1092 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Request Submitted — TomTom Help Center</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+
+  <style>
+    /* ─── Playbook Design Tokens ─────────────────────────────────────────── */
+    :root {
+      --ui-surface-0:           #FFFFFF;
+      --ui-surface-1:           #F2F2F2;
+      --ui-surface-2:           #E5E5E5;
+      --ui-surface-3:           #CCCCCC;
+      --ui-surface-high-em:     #333333;
+      --ui-surface-primary:     #000000;
+      --ui-surface-brand-red:   #DF1B12;
+      --ui-surface-info-accent: #F5F8FA;
+      --ui-surface-success:     #F0FAF4;
+
+      --ui-text-high-em:        #000000;
+      --ui-text-med-em:         #5C5C5C;
+      --ui-text-low-em:         #959595;
+      --ui-text-disabled:       #B2B2B2;
+      --ui-text-white:          #FFFFFF;
+      --ui-text-primary-on-base:#000000;
+      --ui-text-red-on-base:    #DF1B12;
+      --ui-text-success:        #16A34A;
+
+      --ui-border-base-em:      #F2F2F2;
+      --ui-border-low-em:       #E5E5E5;
+      --ui-border-med-em:       #CCCCCC;
+      --ui-border-high-em:      #B2B2B2;
+      --ui-border-primary-high-em: #000000;
+      --ui-border-success:      #86EFAC;
+
+      --ui-outline-focus-primary: drop-shadow(0 0 4px #004B7F);
+
+      --ui-elevation-e0: none;
+      --ui-elevation-e1: 0px 1px 2px -1px rgba(17,12,34,0.08);
+      --ui-elevation-e2: 0px 2px 4px -2px rgba(17,12,34,0.12);
+      --ui-elevation-e3: 0px 6px 16px -6px rgba(17,12,34,0.1);
+      --ui-elevation-e4: 0px 16px 20px -8px rgba(17,12,34,0.1);
+
+      --ui-radius-sm:   5px;
+      --ui-radius-md:   10px;
+      --ui-radius-xl:   40px;
+
+      --ui-font-heading: 'Gilroy', 'Nunito', 'Segoe UI', sans-serif;
+      --ui-font-body:    'Proxima Nova', 'Inter', 'Segoe UI', sans-serif;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html, body {
+      height: 100%;
+      font-family: var(--ui-font-body);
+      font-size: 16px;
+      color: var(--ui-text-high-em);
+      background: var(--ui-surface-1);
+    }
+
+    body {
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
+
+    [hidden] { display: none !important; }
+
+    a { color: inherit; text-decoration: none; }
+    button { cursor: pointer; border: none; background: none; font: inherit; }
+
+    /* ─── Navigation Bar ─────────────────────────────────────────────────── */
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+    }
+
+    .nav-bar {
+      width: 100%;
+      height: 80px;
+      background: var(--ui-surface-0);
+      border-bottom: 1px solid var(--ui-border-base-em);
+      transition: box-shadow 0.15s ease;
+    }
+
+    .nav-bar.scrolled { box-shadow: var(--ui-elevation-e1); }
+
+    .nav-bar__inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      max-width: 1600px;
+      height: 100%;
+      margin: 0 auto;
+      padding: 0 80px;
+      position: relative;
+    }
+
+    .nav-bar__left {
+      display: flex;
+      align-items: center;
+      gap: 24px;
+      flex-shrink: 0;
+      padding-right: 24px;
+    }
+
+    .nav-bar__logo-group {
+      display: flex;
+      align-items: center;
+      gap: 24px;
+      text-decoration: none;
+    }
+
+    .nav-bar__logo-sep {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 1px;
+      height: 28px;
+      background: var(--ui-border-low-em);
+      flex-shrink: 0;
+    }
+
+    .nav-bar__product-name {
+      font-family: var(--ui-font-heading);
+      font-weight: 700;
+      font-size: 20px;
+      line-height: 24px;
+      color: var(--ui-text-primary-on-base);
+      white-space: nowrap;
+    }
+
+    .nav-bar__tabs {
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      align-items: center;
+      height: 100%;
+      gap: 0;
+      list-style: none;
+    }
+
+    .nav-bar__tab {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      height: 80px;
+      padding: 0 16px;
+      font-family: var(--ui-font-heading);
+      font-weight: 700;
+      font-size: 14px;
+      line-height: 20px;
+      color: var(--ui-text-high-em);
+      border-bottom: 2px solid transparent;
+      text-decoration: none;
+      transition: border-color 0.15s, color 0.15s;
+      white-space: nowrap;
+    }
+
+    .nav-bar__tab:hover { color: var(--ui-surface-brand-red); }
+    .nav-bar__tab.active { border-bottom-color: var(--ui-surface-brand-red); }
+
+    .nav-bar__right {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      flex-shrink: 0;
+    }
+
+    .nav-icon-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 44px;
+      height: 44px;
+      border-radius: var(--ui-radius-xl);
+      background: var(--ui-surface-0);
+      border: 1px solid var(--ui-border-low-em);
+      color: var(--ui-text-high-em);
+      transition: background 0.15s;
+    }
+
+    .nav-icon-btn:hover { background: var(--ui-surface-1); }
+    .nav-icon-btn svg { width: 20px; height: 20px; }
+
+    .nav-avatar {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 44px;
+      height: 44px;
+      border-radius: 9999px;
+      background: #004B7F;
+      color: var(--ui-text-white);
+      font-family: var(--ui-font-heading);
+      font-weight: 700;
+      font-size: 14px;
+      line-height: 1;
+      border: 2px solid var(--ui-text-white);
+      cursor: pointer;
+      transition: box-shadow 0.15s;
+    }
+
+    .nav-avatar:hover { box-shadow: var(--ui-elevation-e1); }
+
+    /* ─── Breadcrumb ─────────────────────────────────────────────────────── */
+    .breadcrumb-bar {
+      width: 100%;
+      height: 48px;
+      background: var(--ui-surface-0);
+      border-bottom: 1px solid var(--ui-border-low-em);
+    }
+
+    .breadcrumb-bar__inner {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      max-width: 1600px;
+      height: 100%;
+      margin: 0 auto;
+      padding: 0 80px;
+    }
+
+    .breadcrumb-link {
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--ui-text-med-em);
+      text-decoration: none;
+      transition: color 0.15s;
+    }
+
+    .breadcrumb-link:hover { color: var(--ui-text-high-em); }
+
+    .breadcrumb-sep {
+      display: flex;
+      align-items: center;
+      color: var(--ui-text-low-em);
+    }
+
+    .breadcrumb-sep svg { width: 16px; height: 16px; }
+
+    .breadcrumb-current {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--ui-text-high-em);
+    }
+
+    /* ─── Main content ───────────────────────────────────────────────────── */
+    .main-content {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* ─── Confirmation layout ────────────────────────────────────────────── */
+    .confirmation-body {
+      max-width: 680px;
+      margin: 64px auto 80px;
+      padding: 0 24px;
+      width: 100%;
+    }
+
+    /* Success card */
+    .confirmation-card {
+      background: var(--ui-surface-0);
+      border: 1px solid var(--ui-border-low-em);
+      border-radius: var(--ui-radius-md);
+      padding: 48px 40px 40px;
+      text-align: center;
+      box-shadow: var(--ui-elevation-e1);
+    }
+
+    /* Success icon */
+    .confirmation-icon {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 64px;
+      height: 64px;
+      border-radius: 9999px;
+      background: var(--ui-surface-success);
+      border: 1px solid var(--ui-border-success);
+      color: var(--ui-text-success);
+      margin-bottom: 24px;
+    }
+
+    .confirmation-icon svg {
+      width: 28px;
+      height: 28px;
+    }
+
+    .confirmation-heading {
+      font-family: var(--ui-font-heading);
+      font-weight: 800;
+      font-size: 28px;
+      line-height: 1.2;
+      color: var(--ui-text-high-em);
+      margin-bottom: 8px;
+    }
+
+    .confirmation-subtext {
+      font-size: 15px;
+      color: var(--ui-text-med-em);
+      margin-bottom: 32px;
+    }
+
+    /* Case number pill */
+    .case-number-block {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      background: var(--ui-surface-1);
+      border: 1px solid var(--ui-border-low-em);
+      border-radius: var(--ui-radius-sm);
+      padding: 12px 20px;
+      margin-bottom: 36px;
+    }
+
+    .case-number-label {
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--ui-text-low-em);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .case-number-value {
+      font-family: var(--ui-font-heading);
+      font-weight: 700;
+      font-size: 18px;
+      color: var(--ui-text-high-em);
+      letter-spacing: 0.02em;
+    }
+
+    .case-number-copy {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 4px;
+      color: var(--ui-text-low-em);
+      border-radius: 4px;
+      transition: color 0.15s, background 0.15s;
+    }
+
+    .case-number-copy:hover {
+      color: var(--ui-text-high-em);
+      background: var(--ui-surface-2);
+    }
+
+    .case-number-copy svg { width: 16px; height: 16px; }
+
+    /* Divider */
+    .confirmation-divider {
+      width: 100%;
+      height: 1px;
+      background: var(--ui-border-low-em);
+      margin-bottom: 28px;
+    }
+
+    /* What happens next */
+    .next-steps__heading {
+      font-family: var(--ui-font-heading);
+      font-weight: 700;
+      font-size: 14px;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--ui-text-low-em);
+      margin-bottom: 16px;
+      text-align: left;
+    }
+
+    .next-steps__list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      margin-bottom: 36px;
+      text-align: left;
+    }
+
+    .next-step {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+    }
+
+    .next-step__num {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      width: 22px;
+      height: 22px;
+      border-radius: 9999px;
+      background: var(--ui-surface-1);
+      border: 1px solid var(--ui-border-med-em);
+      font-family: var(--ui-font-heading);
+      font-weight: 700;
+      font-size: 11px;
+      color: var(--ui-text-med-em);
+      margin-top: 1px;
+    }
+
+    .next-step__text {
+      font-size: 14px;
+      line-height: 1.55;
+      color: var(--ui-text-med-em);
+    }
+
+    .next-step__text strong {
+      color: var(--ui-text-high-em);
+      font-weight: 600;
+    }
+
+    /* Actions */
+    .confirmation-actions {
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    /* ─── Buttons ────────────────────────────────────────────────────────── */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      font-family: var(--ui-font-heading);
+      font-weight: 700;
+      font-size: 14px;
+      line-height: 1;
+      border-radius: var(--ui-radius-xl);
+      padding: 0 24px;
+      height: 44px;
+      transition: background 0.15s, border-color 0.15s, color 0.15s, box-shadow 0.15s;
+      text-decoration: none;
+    }
+
+    .btn--primary {
+      background: var(--ui-surface-brand-red);
+      color: var(--ui-text-white);
+      border: 1.5px solid var(--ui-surface-brand-red);
+    }
+
+    .btn--primary:hover {
+      background: #C41810;
+      border-color: #C41810;
+    }
+
+    .btn--ghost {
+      background: transparent;
+      color: var(--ui-text-high-em);
+      border: 1.5px solid var(--ui-border-med-em);
+    }
+
+    .btn--ghost:hover {
+      background: var(--ui-surface-1);
+      border-color: var(--ui-border-high-em);
+    }
+
+    /* ─── Virtual Agent (same component as record producer) ──────────────── */
+    .va-trigger {
+      position: fixed;
+      bottom: 28px;
+      right: 28px;
+      z-index: 100;
+      width: 56px;
+      height: 56px;
+      border-radius: 9999px;
+      background: var(--ui-surface-brand-red);
+      color: #FFFFFF;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 4px 16px rgba(223,27,18,0.35);
+      transition: transform 0.15s, box-shadow 0.15s;
+    }
+
+    .va-trigger:hover {
+      transform: scale(1.06);
+      box-shadow: 0 6px 20px rgba(223,27,18,0.45);
+    }
+
+    .va-trigger svg { width: 22px; height: 22px; }
+
+    .va-panel {
+      position: fixed;
+      z-index: 200;
+      background: var(--ui-surface-0);
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+
+    .va-panel--side {
+      top: 0;
+      right: 0;
+      width: 360px;
+      height: 100vh;
+      border-left: 1px solid var(--ui-border-low-em);
+      box-shadow: -2px 0 24px rgba(0,0,0,0.1);
+    }
+
+    .va-panel--popup {
+      bottom: 88px;
+      right: 28px;
+      width: 380px;
+      height: min(600px, 85vh);
+      border-radius: 16px;
+      box-shadow: 0 8px 40px rgba(0,0,0,0.15);
+      border: 1px solid var(--ui-border-low-em);
+    }
+
+    .va-panel--overlay {
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: min(680px, 90vw);
+      height: min(620px, 85vh);
+      border-radius: 16px;
+      box-shadow: 0 16px 48px rgba(0,0,0,0.2);
+      border: 1px solid var(--ui-border-low-em);
+    }
+
+    .va-overlay-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.4);
+      z-index: 199;
+    }
+
+    .va-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 16px;
+      height: 56px;
+      border-bottom: 1px solid var(--ui-border-low-em);
+      flex-shrink: 0;
+      background: var(--ui-surface-0);
+    }
+
+    .va-header__left {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .va-header__title {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-family: var(--ui-font-heading);
+      font-weight: 700;
+      font-size: 14px;
+      color: var(--ui-text-high-em);
+    }
+
+    .va-header__actions {
+      display: flex;
+      align-items: center;
+      gap: 2px;
+    }
+
+    .va-header__btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 32px;
+      height: 32px;
+      border-radius: 6px;
+      color: var(--ui-text-med-em);
+      transition: background 0.12s, color 0.12s;
+    }
+
+    .va-header__btn:hover {
+      background: var(--ui-surface-1);
+      color: var(--ui-text-high-em);
+    }
+
+    .va-header__btn svg { width: 16px; height: 16px; }
+
+    .va-body {
+      flex: 1;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .va-welcome {
+      padding: 28px 20px 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+    }
+
+    .va-welcome__heading {
+      font-family: var(--ui-font-heading);
+      font-weight: 800;
+      font-size: 20px;
+      line-height: 1.25;
+      color: var(--ui-text-high-em);
+      margin-bottom: 4px;
+    }
+
+    .va-welcome__subtext {
+      font-size: 13px;
+      color: var(--ui-text-med-em);
+      margin-bottom: 20px;
+      line-height: 1.5;
+    }
+
+    .va-suggested-label {
+      font-family: var(--ui-font-heading);
+      font-weight: 700;
+      font-size: 11px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--ui-text-low-em);
+      margin-bottom: 10px;
+    }
+
+    .va-suggestions {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .va-suggestion {
+      display: block;
+      width: 100%;
+      padding: 12px 14px;
+      background: var(--ui-surface-0);
+      border: 1px solid var(--ui-border-med-em);
+      border-radius: var(--ui-radius-sm);
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--ui-text-high-em);
+      text-align: left;
+      line-height: 1.4;
+      transition: background 0.12s, border-color 0.12s;
+    }
+
+    .va-suggestion:hover { background: var(--ui-surface-1); border-color: var(--ui-border-med-em); }
+
+    .va-welcome__prompt {
+      font-size: 12px;
+      color: var(--ui-text-low-em);
+      margin-top: 14px;
+      line-height: 1.5;
+    }
+
+    .va-convo {
+      flex: 1;
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      overflow-y: auto;
+    }
+
+    .va-msg { display: flex; flex-direction: column; gap: 3px; }
+    .va-msg--user { align-items: flex-end; }
+    .va-msg--bot  { align-items: flex-start; }
+
+    .va-msg__sender {
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--ui-text-low-em);
+      padding: 0 4px;
+    }
+
+    .va-msg__bubble {
+      max-width: 85%;
+      padding: 10px 14px;
+      border-radius: 12px;
+      font-size: 13px;
+      line-height: 1.55;
+    }
+
+    .va-msg--user .va-msg__bubble {
+      background: var(--ui-surface-brand-red);
+      color: #FFFFFF;
+      border-bottom-right-radius: 4px;
+    }
+
+    .va-msg--bot .va-msg__bubble {
+      background: var(--ui-surface-1);
+      color: var(--ui-text-high-em);
+      border-bottom-left-radius: 4px;
+    }
+
+    .va-typing {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      padding: 10px 14px;
+      background: var(--ui-surface-1);
+      border-radius: 12px;
+      border-bottom-left-radius: 4px;
+      width: fit-content;
+    }
+
+    .va-typing span {
+      width: 6px;
+      height: 6px;
+      border-radius: 9999px;
+      background: var(--ui-text-low-em);
+      animation: va-bounce 1.2s ease-in-out infinite;
+    }
+
+    .va-typing span:nth-child(2) { animation-delay: 0.2s; }
+    .va-typing span:nth-child(3) { animation-delay: 0.4s; }
+
+    @keyframes va-bounce {
+      0%, 80%, 100% { transform: translateY(0); }
+      40%           { transform: translateY(-5px); }
+    }
+
+    .va-input-row {
+      display: flex;
+      align-items: flex-end;
+      gap: 8px;
+      padding: 12px 12px 16px;
+      border-top: 1px solid var(--ui-border-low-em);
+      background: var(--ui-surface-0);
+      flex-shrink: 0;
+    }
+
+    .va-input-row textarea {
+      flex: 1;
+      min-height: 40px;
+      max-height: 120px;
+      padding: 10px 12px;
+      border: 1px solid var(--ui-border-med-em);
+      border-radius: 8px;
+      font-family: var(--ui-font-body);
+      font-size: 13px;
+      color: var(--ui-text-high-em);
+      background: var(--ui-surface-1);
+      resize: none;
+      outline: none;
+      line-height: 1.45;
+      transition: border-color 0.15s;
+      overflow-y: hidden;
+    }
+
+    .va-input-row textarea:focus { border-color: var(--ui-border-high-em); background: var(--ui-surface-0); }
+    .va-input-row textarea::placeholder { color: var(--ui-text-low-em); }
+
+    .va-send-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 36px;
+      height: 36px;
+      border-radius: 9999px;
+      background: var(--ui-surface-brand-red);
+      color: #FFFFFF;
+      flex-shrink: 0;
+      transition: background 0.15s, transform 0.1s;
+    }
+
+    .va-send-btn:hover { background: #C41810; transform: scale(1.05); }
+    .va-send-btn svg { width: 16px; height: 16px; }
+
+    .va-footer-disclaimer {
+      text-align: center;
+      font-size: 11px;
+      color: var(--ui-text-low-em);
+      padding: 0 12px 10px;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <nav class="nav-bar" id="nav-bar" aria-label="Main navigation">
+      <div class="nav-bar__inner">
+
+        <div class="nav-bar__left">
+          <a class="nav-bar__logo-group" href="/" aria-label="TomTom Help Center home">
+            <svg width="125" height="24" viewBox="0 0 125 24.0001" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+              <path fill-rule="evenodd" clip-rule="evenodd" d="M121.444 22.1291H124.999L125 13.0887C125 12.5 124.925 12.0676 124.859 11.7567C124.836 11.6515 124.816 11.5678 124.794 11.4864C124.092 8.90785 121.577 7.123 118.811 7.23655C117.528 7.29129 116.321 7.76661 115.225 8.64915L115.085 8.76169L114.945 8.64915C113.849 7.76661 112.642 7.29129 111.359 7.23655C108.59 7.12114 106.078 8.90785 105.376 11.4864C105.354 11.568 105.334 11.652 105.311 11.7577C105.242 12.0876 105.17 12.5049 105.17 13.0887L105.171 22.1291H108.726V13.242C108.726 11.9833 109.753 10.9593 111.015 10.9593C112.266 10.9593 113.292 11.9744 113.303 13.222C113.304 13.2264 113.304 13.2342 113.304 13.242V22.1291H116.866L116.867 13.2212C116.878 11.9744 117.904 10.9593 119.155 10.9593C120.417 10.9593 121.444 11.9833 121.444 13.242V22.1291Z" fill="#000000"/>
+              <path fill-rule="evenodd" clip-rule="evenodd" d="M95.1744 18.5808C93.0256 18.5808 91.2773 16.8374 91.2773 14.6945C91.2773 12.5516 93.0256 10.8081 95.1744 10.8081C97.3234 10.8081 99.0716 12.5516 99.0716 14.6945C99.0716 16.8374 97.3234 18.5808 95.1744 18.5808M95.1741 7.25977C91.0633 7.25977 87.7188 10.5949 87.7188 14.6944C87.7188 18.794 91.0633 22.1292 95.1741 22.1292C99.285 22.1292 102.629 18.794 102.629 14.6944C102.629 10.5949 99.285 7.25977 95.1741 7.25977" fill="#000000"/>
+              <path fill-rule="evenodd" clip-rule="evenodd" d="M82.9062 22.1324H87.5178L85.4546 18.5805C85.0074 18.58 83.1692 18.5776 83.026 18.5776C81.8791 18.5776 80.8802 17.7512 80.7994 16.7353C80.7887 16.6023 80.7791 16.4376 80.7716 16.2566V10.9014H85.4537L87.2833 7.69089H80.7716V1.86743L77.2102 4.32446V7.52023H74.9629V11.072H77.21L77.2134 15.9215C77.2134 15.9236 77.211 16.1479 77.2144 16.2125L77.228 16.4827C77.3498 18.8376 78.5126 20.5715 80.684 21.6355C81.2652 21.9202 81.908 22.0772 82.7073 22.1294L82.9062 22.1291V22.1324Z" fill="#000000"/>
+              <path fill-rule="evenodd" clip-rule="evenodd" d="M68.864 22.129H72.4192L72.4198 13.0887C72.4198 12.5 72.3444 12.0676 72.2785 11.7567C72.2556 11.6514 72.2355 11.5677 72.2135 11.4863C71.512 8.90779 68.9973 7.12293 66.2307 7.23648C64.9479 7.29123 63.7413 7.76655 62.6447 8.64909L62.5049 8.76163L62.3651 8.64909C61.2685 7.76655 60.0619 7.29123 58.7788 7.23648C56.01 7.12108 53.4979 8.90779 52.7962 11.4863C52.774 11.5679 52.754 11.6519 52.731 11.7577C52.6613 12.0875 52.5898 12.5049 52.5898 13.0887L52.5905 22.129H56.1459V13.2419C56.1459 11.9833 57.1727 10.9593 58.4348 10.9593C59.6856 10.9593 60.7119 11.9743 60.7229 13.222C60.7233 13.2264 60.7238 13.2342 60.7238 13.2419V22.129H64.2861L64.2869 13.2211C64.2978 11.9743 65.3242 10.9593 66.5749 10.9593C67.8372 10.9593 68.864 11.9833 68.864 13.2419V22.129Z" fill="#000000"/>
+              <path fill-rule="evenodd" clip-rule="evenodd" d="M42.5944 18.5808C40.4454 18.5808 38.6973 16.8374 38.6973 14.6945C38.6973 12.5516 40.4454 10.8081 42.5944 10.8081C44.7434 10.8081 46.4915 12.5516 46.4915 14.6945C46.4915 16.8374 44.7434 18.5808 42.5944 18.5808M42.594 7.25977C38.4831 7.25977 35.1387 10.5949 35.1387 14.6944C35.1387 18.794 38.4831 22.1292 42.594 22.1292C46.7049 22.1292 50.0493 18.794 50.0493 14.6944C50.0493 10.5949 46.7049 7.25977 42.594 7.25977" fill="#000000"/>
+              <path fill-rule="evenodd" clip-rule="evenodd" d="M30.3261 22.1325H34.9378L32.8745 18.5805C32.4273 18.58 30.5891 18.5777 30.4459 18.5777C29.299 18.5777 28.3001 17.7512 28.2193 16.7354C28.2086 16.6024 28.199 16.4376 28.1915 16.2567V10.9014H32.8736L34.7033 7.69095H28.1915V1.86749L24.6301 4.32452V7.52029H22.3828V11.0721H24.6299L24.6333 15.9216C24.6333 15.9236 24.6309 16.148 24.6343 16.2126L24.6479 16.4827C24.7697 18.8377 25.9326 20.5715 28.1039 21.6355C28.6851 21.9203 29.328 22.0772 30.1272 22.1295L30.3261 22.1291V22.1325Z" fill="#000000"/>
+              <path fill-rule="evenodd" clip-rule="evenodd" d="M8.28764 24.0001L11.4639 18.5139H5.11133L8.28764 24.0001Z" fill="#DF1B12"/>
+              <path fill-rule="evenodd" clip-rule="evenodd" d="M8.28694 12.5839C5.89835 12.5839 3.95522 10.6459 3.95522 8.26409C3.95522 5.88209 5.89835 3.94415 8.28694 3.94415C10.6755 3.94415 12.6187 5.88209 12.6187 8.26409C12.6187 10.6459 10.6755 12.5839 8.28694 12.5839M8.28694 0C3.7175 0 0 3.70725 0 8.26409C0 12.8208 3.7175 16.528 8.28694 16.528C12.8564 16.528 16.5739 12.8208 16.5739 8.26409C16.5739 3.70725 12.8564 0 8.28694 0" fill="#DF1B12"/>
+            </svg>
+            <span class="nav-bar__logo-sep" aria-hidden="true"></span>
+            <span class="nav-bar__product-name">Help Center</span>
+          </a>
+        </div>
+
+        <ul class="nav-bar__tabs" role="list">
+          <li><a class="nav-bar__tab active" href="#" aria-current="page">Support cases</a></li>
+          <li><a class="nav-bar__tab" href="#">Service status</a></li>
+          <li><a class="nav-bar__tab" href="#">Resources</a></li>
+        </ul>
+
+        <div class="nav-bar__right">
+          <button class="nav-icon-btn" aria-label="Help and support">
+            <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+              <circle cx="10" cy="10" r="8.5" stroke="currentColor" stroke-width="1.5"/>
+              <path d="M7.75 7.75C7.75 6.37 8.87 5.25 10.25 5.25C11.63 5.25 12.75 6.37 12.75 7.75C12.75 8.84 12.08 9.77 11.13 10.15C10.63 10.34 10.25 10.8 10.25 11.33V12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+              <circle cx="10.25" cy="14.25" r="0.75" fill="currentColor"/>
+            </svg>
+          </button>
+          <button class="nav-avatar" aria-label="My account, John Smith">JS</button>
+        </div>
+
+      </div>
+    </nav>
+
+    <nav class="breadcrumb-bar" aria-label="Breadcrumb">
+      <div class="breadcrumb-bar__inner">
+        <a class="breadcrumb-link" href="#">Home</a>
+        <span class="breadcrumb-sep" aria-hidden="true">
+          <svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M6 4L10 8L6 12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </span>
+        <a class="breadcrumb-link" href="#">Support cases</a>
+        <span class="breadcrumb-sep" aria-hidden="true">
+          <svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M6 4L10 8L6 12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </span>
+        <span class="breadcrumb-current" aria-current="page">REQ0001234</span>
+      </div>
+    </nav>
+  </header>
+
+  <main class="main-content">
+    <div class="confirmation-body">
+      <div class="confirmation-card">
+
+        <!-- Success icon -->
+        <div class="confirmation-icon" aria-hidden="true">
+          <svg viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M6 14L11.5 19.5L22 9" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </div>
+
+        <h1 class="confirmation-heading">Your request has been submitted</h1>
+        <p class="confirmation-subtext">
+          We've received your case for <strong>Software Issue - Problem</strong>.<br>
+          Check your email for a confirmation with next steps.
+        </p>
+
+        <!-- Case number -->
+        <div class="case-number-block">
+          <span class="case-number-label">Case number</span>
+          <span class="case-number-value" id="case-number">REQ0001234</span>
+          <button class="case-number-copy" aria-label="Copy case number" id="copy-btn">
+            <svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <rect x="5" y="5" width="8" height="9" rx="1.2" stroke="currentColor" stroke-width="1.3"/>
+              <path d="M3 11V3.5C3 2.67 3.67 2 4.5 2H11" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/>
+            </svg>
+          </button>
+        </div>
+
+        <div class="confirmation-divider"></div>
+
+        <!-- What happens next -->
+        <p class="next-steps__heading">What happens next</p>
+        <ol class="next-steps__list">
+          <li class="next-step">
+            <span class="next-step__num">1</span>
+            <span class="next-step__text"><strong>Email confirmation sent</strong> — you'll receive a summary of your case with the reference number above.</span>
+          </li>
+          <li class="next-step">
+            <span class="next-step__num">2</span>
+            <span class="next-step__text"><strong>A support agent will review your case</strong> — typical response time is 1 business day. Critical issues are handled within 4 hours.</span>
+          </li>
+          <li class="next-step">
+            <span class="next-step__num">3</span>
+            <span class="next-step__text"><strong>Track your case anytime</strong> — go to <em>Support cases</em> in the navigation to view status, add comments, or attach files.</span>
+          </li>
+        </ol>
+
+        <!-- Actions -->
+        <div class="confirmation-actions">
+          <a class="btn btn--primary" href="#">View my cases</a>
+          <a class="btn btn--ghost" href="virtual-agent.html">Return to home</a>
+        </div>
+
+      </div>
+    </div>
+  </main>
+
+  <script>
+    // Nav scroll shadow
+    const nav = document.getElementById('nav-bar');
+    window.addEventListener('scroll', () => {
+      nav.classList.toggle('scrolled', window.scrollY > 4);
+    }, { passive: true });
+
+    // Copy case number
+    const copyBtn = document.getElementById('copy-btn');
+    const caseNum = document.getElementById('case-number');
+    copyBtn.addEventListener('click', () => {
+      navigator.clipboard.writeText(caseNum.textContent).then(() => {
+        const orig = copyBtn.innerHTML;
+        copyBtn.innerHTML = `<svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M3 8L6.5 11.5L13 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
+        setTimeout(() => { copyBtn.innerHTML = orig; }, 1800);
+      });
+    });
+
+    // ── Virtual Agent ───────────────────────────────────────────────────────
+    const trigger  = document.getElementById('va-trigger');
+    const panel    = document.getElementById('va-panel');
+    const backdrop = document.getElementById('va-backdrop');
+    const btnClose = document.getElementById('btn-close');
+    const btnExpand= document.getElementById('btn-expand');
+    const btnPopup = document.getElementById('btn-popup');
+    const welcome  = document.getElementById('va-welcome');
+    const convo    = document.getElementById('va-convo');
+
+    let isOverlay = false;
+    let isPopup   = false;
+
+    function openPanel() {
+      panel.hidden = false;
+      trigger.hidden = true;
+    }
+
+    function closePanel() {
+      panel.hidden = true;
+      backdrop.hidden = true;
+      trigger.hidden = false;
+      if (isOverlay) exitOverlay();
+      if (isPopup) exitPopup();
+    }
+
+    function enterOverlay() {
+      isOverlay = true;
+      backdrop.hidden = false;
+      panel.classList.add('va-panel--overlay');
+      panel.classList.remove('va-panel--side', 'va-panel--popup');
+    }
+
+    function exitOverlay() {
+      isOverlay = false;
+      backdrop.hidden = true;
+      panel.classList.remove('va-panel--overlay');
+      isPopup
+        ? panel.classList.add('va-panel--popup')
+        : panel.classList.add('va-panel--side');
+    }
+
+    function enterPopup() {
+      isPopup = true;
+      panel.classList.replace('va-panel--side', 'va-panel--popup');
+      trigger.hidden = true;
+    }
+
+    function exitPopup() {
+      isPopup = false;
+      panel.classList.replace('va-panel--popup', 'va-panel--side');
+    }
+
+    trigger.addEventListener('click', openPanel);
+    btnClose.addEventListener('click', closePanel);
+    backdrop.addEventListener('click', closePanel);
+
+    btnExpand.addEventListener('click', () => {
+      isOverlay ? exitOverlay() : enterOverlay();
+    });
+
+    btnPopup.addEventListener('click', () => {
+      if (isOverlay) exitOverlay();
+      isPopup ? exitPopup() : enterPopup();
+    });
+
+    const BOT_REPLIES = {
+      'case-status': `You can track your case anytime by going to <strong>Support cases</strong> in the top navigation. Your case reference is <strong>REQ0001234</strong>. You'll also receive email updates whenever the status changes.`,
+      'add-info': `Yes! Go to <strong>Support cases</strong> in the navigation, open your case REQ0001234, and use the <strong>Add comment</strong> option to include additional details or attach files. The assigned agent will be notified automatically.`,
+      'new-case': `Of course. <a href="virtual-agent.html" style="color:var(--ui-text-red-on-base);font-weight:600;text-decoration:underline;">Return to the portal</a> and click <strong>Create a case</strong> to start a new request.`,
+    };
+
+    function appendMessage(text, type) {
+      const msg = document.createElement('div');
+      msg.className = `va-msg va-msg--${type}`;
+      const sender = document.createElement('span');
+      sender.className = 'va-msg__sender';
+      sender.textContent = type === 'bot' ? 'Help Center Support' : 'You';
+      const bubble = document.createElement('div');
+      bubble.className = 'va-msg__bubble';
+      bubble.innerHTML = text;
+      msg.appendChild(sender);
+      msg.appendChild(bubble);
+      convo.appendChild(msg);
+      convo.scrollTop = convo.scrollHeight;
+    }
+
+    function showTyping() {
+      const t = document.createElement('div');
+      t.className = 'va-typing';
+      t.id = 'va-typing';
+      t.innerHTML = '<span></span><span></span><span></span>';
+      convo.appendChild(t);
+      convo.scrollTop = convo.scrollHeight;
+    }
+
+    function removeTyping() {
+      const t = document.getElementById('va-typing');
+      if (t) t.remove();
+    }
+
+    function enterConversation() {
+      welcome.hidden = true;
+      convo.hidden = false;
+      convo.innerHTML = '';
+    }
+
+    function handleSuggestion(action) {
+      enterConversation();
+      const labels = {
+        'case-status': 'How do I check my case status?',
+        'add-info':    'Can I add more information to my case?',
+        'new-case':    'I need to submit another case',
+      };
+      appendMessage(labels[action] || action, 'user');
+      showTyping();
+      setTimeout(() => {
+        removeTyping();
+        appendMessage(BOT_REPLIES[action] || "Let me look into that for you.", 'bot');
+      }, 1200);
+    }
+
+    document.querySelectorAll('.va-suggestion').forEach(btn => {
+      btn.addEventListener('click', () => handleSuggestion(btn.dataset.action));
+    });
+
+    const vaInput  = document.getElementById('va-input');
+    const sendBtn  = document.getElementById('va-send');
+
+    function sendUserMessage() {
+      const text = vaInput.value.trim();
+      if (!text) return;
+      if (welcome && !welcome.hidden) enterConversation();
+      appendMessage(text, 'user');
+      vaInput.value = '';
+      vaInput.style.height = 'auto';
+      showTyping();
+      setTimeout(() => {
+        removeTyping();
+        appendMessage("Thanks for your message. A support agent will follow up on your case REQ0001234. Is there anything else I can help you with?", 'bot');
+      }, 1200);
+    }
+
+    sendBtn.addEventListener('click', sendUserMessage);
+    vaInput.addEventListener('keydown', e => {
+      if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); sendUserMessage(); }
+    });
+    vaInput.addEventListener('input', () => {
+      vaInput.style.height = 'auto';
+      vaInput.style.height = Math.min(vaInput.scrollHeight, 120) + 'px';
+    });
+  </script>
+
+  <!-- ── Prototype nav ─────────────────────────────────────────────────────── -->
+  <style>
+    .proto-nav { position: fixed; bottom: 20px; left: 20px; z-index: 9999; }
+    .proto-nav__btn { display: inline-flex; align-items: center; gap: 6px; padding: 7px 12px; background: rgba(255,255,255,0.92); border: 1px solid rgba(0,0,0,0.12); border-radius: 20px; box-shadow: 0 2px 8px rgba(0,0,0,0.12); font-family: -apple-system, BlinkMacSystemFont, "Inter", sans-serif; font-size: 12px; font-weight: 600; color: #555; text-decoration: none; cursor: pointer; backdrop-filter: blur(6px); transition: background 0.15s, color 0.15s, box-shadow 0.15s; }
+    .proto-nav__btn:hover { background: #fff; color: #111; box-shadow: 0 3px 12px rgba(0,0,0,0.18); }
+    .proto-nav__btn svg { flex-shrink: 0; }
+  </style>
+  <div class="proto-nav">
+    <a class="proto-nav__btn" href="/">
+      <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M1 6L6 1.5L11 6" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M2.5 5V10.5H5V7.5H7V10.5H9.5V5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+      All pages
+    </a>
+  </div>
+
+</body>
+</html>
