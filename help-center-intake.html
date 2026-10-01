@@ -655,7 +655,11 @@
           <div class="tile-desc">${cat.desc}</div>
           <div class="tile-tag">${cat.tag}</div>`;
         tile.addEventListener('click', () => {
-          window.location.href = 'help-center-record-producer.html';
+          const params = new URLSearchParams({
+            category: cat.id,
+            description: intakeText.value.trim()
+          });
+          window.location.href = 'help-center-record-producer.html?' + params.toString();
         });
         categoryGrid.appendChild(tile);
       });
