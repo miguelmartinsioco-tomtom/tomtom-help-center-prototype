@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>TomTom Help Center — Prototype</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --red: #DF1B12;
+      --surface-0: #FFFFFF;
+      --surface-1: #F5F5F5;
+      --border: #E0E0E0;
+      --text-high: #111111;
+      --text-med: #5C5C5C;
+      --text-low: #8C8C8C;
+      --radius-md: 10px;
+      --radius-lg: 14px;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--surface-1);
+      color: var(--text-high);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+    .wrap {
+      max-width: 680px;
+      margin: 0 auto;
+      padding: 56px 24px 80px;
+      flex: 1;
+    }
+
+    /* Header */
+    .site-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--text-low);
+      margin-bottom: 10px;
+    }
+    .site-badge__dot {
+      width: 6px; height: 6px;
+      background: var(--red);
+      border-radius: 50%;
+    }
+    h1 {
+      font-family: 'Nunito', sans-serif;
+      font-size: 28px;
+      font-weight: 800;
+      color: var(--text-high);
+      margin-bottom: 6px;
+      line-height: 1.2;
+    }
+    .subtitle {
+      font-size: 14px;
+      color: var(--text-med);
+      margin-bottom: 40px;
+      line-height: 1.5;
+    }
+
+    /* Section label */
+    .section-label {
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--text-low);
+      margin-bottom: 12px;
+    }
+
+    /* Page list */
+    .page-list {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      margin-bottom: 36px;
+    }
+    .page-card {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding: 14px 18px;
+      background: var(--surface-0);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      text-decoration: none;
+      color: inherit;
+      transition: box-shadow 0.15s, border-color 0.15s;
+    }
+    .page-card:hover {
+      border-color: #BDBDBD;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.07);
+    }
+    .page-card__icon {
+      width: 36px; height: 36px;
+      background: var(--surface-1);
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      color: var(--text-med);
+    }
+    .page-card__body { flex: 1; min-width: 0; }
+    .page-card__name {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--text-high);
+      margin-bottom: 2px;
+    }
+    .page-card__desc {
+      font-size: 12px;
+      color: var(--text-low);
+      line-height: 1.4;
+    }
+    .page-card__arrow {
+      color: var(--text-low);
+      flex-shrink: 0;
+    }
+
+    /* Flow callout */
+    .flow-callout {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      padding: 13px 16px;
+      background: #EFF6FF;
+      border: 1px solid #BFDBFE;
+      border-radius: var(--radius-md);
+      font-size: 13px;
+      color: #1E3A5F;
+      line-height: 1.5;
+      margin-bottom: 40px;
+    }
+    .flow-callout svg { flex-shrink: 0; margin-top: 1px; color: #3B82F6; }
+    .flow-callout strong { font-weight: 600; }
+
+    /* Footer */
+    footer {
+      text-align: center;
+      font-size: 11px;
+      color: var(--text-low);
+      padding: 20px 24px;
+      border-top: 1px solid var(--border);
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+
+    <div class="site-badge"><span class="site-badge__dot"></span> Prototype</div>
+    <h1>TomTom Help Center</h1>
+    <p class="subtitle">ServiceNow Horizon — B2B Help Center concept. Select any page to preview, or run the guided flow below.</p>
+
+    <!-- Guided flow callout -->
+    <div class="flow-callout">
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="6.5" stroke="currentColor" stroke-width="1.3"/><path d="M8 7v4M8 5.5v.5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>
+      <div><strong>Guided flow:</strong> Start with the <a href="help-center-intake.html" style="color:#1D4ED8;font-weight:600;">Intake page</a>, pick a scenario (try <strong>D</strong> or <strong>E</strong>), review the deflection panel, then continue to the record producer to see the full AI-assisted experience.</div>
+    </div>
+
+    <!-- Primary pages -->
+    <div class="section-label">Primary flow</div>
+    <div class="page-list">
+
+      <a class="page-card" href="help-center-intake.html">
+        <div class="page-card__icon">
+          <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><rect x="2.5" y="2.5" width="13" height="13" rx="2.5" stroke="currentColor" stroke-width="1.3"/><path d="M6 9h6M6 6h3M6 12h4" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>
+        </div>
+        <div class="page-card__body">
+          <div class="page-card__name">Help Center — Intake</div>
+          <div class="page-card__desc">Natural-language issue submission, AI classification, deflection panel</div>
+        </div>
+        <svg class="page-card__arrow" width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M5 2l5 5-5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </a>
+
+      <a class="page-card" href="help-center-record-producer.html">
+        <div class="page-card__icon">
+          <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M14 9.5V14.5C14 15.05 13.55 15.5 13 15.5H5C4.45 15.5 4 15.05 4 14.5V3.5C4 2.95 4.45 2.5 5 2.5H9.5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/><path d="M11 2.5l4 4-5 5H6.5v-4l4.5-5z" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/></svg>
+        </div>
+        <div class="page-card__body">
+          <div class="page-card__name">Record Producer — Software Issue</div>
+          <div class="page-card__desc">B2B CSM case form with AI pre-fill; best experienced via the intake flow</div>
+        </div>
+        <svg class="page-card__arrow" width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M5 2l5 5-5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </a>
+
+      <a class="page-card" href="confirmation.html">
+        <div class="page-card__icon">
+          <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><circle cx="9" cy="9" r="6.5" stroke="currentColor" stroke-width="1.3"/><path d="M6.5 9l2 2 3-3.5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+        <div class="page-card__body">
+          <div class="page-card__name">Case Confirmation</div>
+          <div class="page-card__desc">Post-submission confirmation screen</div>
+        </div>
+        <svg class="page-card__arrow" width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M5 2l5 5-5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </a>
+
+      <a class="page-card" href="case-detail.html">
+        <div class="page-card__icon">
+          <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><rect x="2.5" y="2.5" width="13" height="13" rx="2.5" stroke="currentColor" stroke-width="1.3"/><path d="M6 6h6M6 9h6M6 12h3" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>
+        </div>
+        <div class="page-card__body">
+          <div class="page-card__name">Case Detail</div>
+          <div class="page-card__desc">Open case view with activity timeline and status</div>
+        </div>
+        <svg class="page-card__arrow" width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M5 2l5 5-5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </a>
+
+    </div>
+
+    <!-- Supporting pages -->
+    <div class="section-label">Supporting pages</div>
+    <div class="page-list">
+
+      <a class="page-card" href="survey.html">
+        <div class="page-card__icon">
+          <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M9 3.5v11M3.5 9h11" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/><circle cx="9" cy="9" r="6.5" stroke="currentColor" stroke-width="1.3"/></svg>
+        </div>
+        <div class="page-card__body">
+          <div class="page-card__name">Survey</div>
+          <div class="page-card__desc">Post-resolution satisfaction survey</div>
+        </div>
+        <svg class="page-card__arrow" width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M5 2l5 5-5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </a>
+
+      <a class="page-card" href="survey-embedded.html">
+        <div class="page-card__icon">
+          <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><rect x="2.5" y="4.5" width="13" height="9" rx="2" stroke="currentColor" stroke-width="1.3"/><path d="M6 9h6M6 11.5h3" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>
+        </div>
+        <div class="page-card__body">
+          <div class="page-card__name">Survey — Embedded</div>
+          <div class="page-card__desc">Inline survey variant</div>
+        </div>
+        <svg class="page-card__arrow" width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M5 2l5 5-5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </a>
+
+      <a class="page-card" href="virtual-agent.html">
+        <div class="page-card__icon">
+          <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><rect x="3" y="5" width="12" height="9" rx="2.5" stroke="currentColor" stroke-width="1.3"/><path d="M6.5 9.5h5M6.5 12h3" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/><path d="M6 5V3.5M9 5V3M12 5V3.5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>
+        </div>
+        <div class="page-card__body">
+          <div class="page-card__name">Virtual Agent</div>
+          <div class="page-card__desc">Conversational support assistant</div>
+        </div>
+        <svg class="page-card__arrow" width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M5 2l5 5-5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </a>
+
+    </div>
+
+  </div>
+
+  <footer>TomTom Help Center Prototype · Service Design · For internal review only</footer>
+
+</body>
+</html>
