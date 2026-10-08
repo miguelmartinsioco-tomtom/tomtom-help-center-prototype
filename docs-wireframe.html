@@ -1,0 +1,651 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Routing API — Basic Route [Wireframe]</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:        #F2F2F2;
+      --surface:   #FFFFFF;
+      --border:    #D4D4D4;
+      --border-lo: #E4E4E4;
+      --box:       #E8E8E8;
+      --text-hi:   #1A1A1A;
+      --text-med:  #555555;
+      --text-lo:   #909090;
+      --red:       #DF1B12;
+      --panel-w:   340px;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--bg);
+      color: var(--text-hi);
+      height: 100vh;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* ── Top bar ────────────────────────────────────────────────────────── */
+    .top-bar {
+      height: 48px;
+      background: var(--surface);
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      gap: 0;
+      flex-shrink: 0;
+      padding: 0 20px;
+      gap: 16px;
+    }
+    .top-bar__logo {
+      width: 80px; height: 18px;
+      background: var(--box);
+      border-radius: 3px;
+      flex-shrink: 0;
+    }
+    .top-bar__nav {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      flex: 1;
+    }
+    .top-bar__nav-item {
+      padding: 4px 10px;
+      font-size: 12px;
+      color: var(--text-med);
+      border-radius: 4px;
+      cursor: default;
+    }
+    .top-bar__nav-item--active {
+      background: var(--box);
+      color: var(--text-hi);
+      font-weight: 600;
+    }
+    .top-bar__actions {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .top-bar__btn {
+      height: 28px;
+      padding: 0 12px;
+      border-radius: 14px;
+      border: 1px solid var(--border);
+      background: var(--surface);
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--text-med);
+      cursor: default;
+      font-family: inherit;
+    }
+    .top-bar__search {
+      width: 160px;
+      height: 28px;
+      background: var(--box);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      display: flex;
+      align-items: center;
+      padding: 0 10px;
+      gap: 6px;
+      font-size: 11px;
+      color: var(--text-lo);
+    }
+
+    /* ── Sub-nav ────────────────────────────────────────────────────────── */
+    .sub-nav {
+      height: 38px;
+      background: var(--surface);
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      padding: 0 20px;
+      gap: 24px;
+      flex-shrink: 0;
+    }
+    .sub-nav__breadcrumb {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 11px;
+      color: var(--text-lo);
+    }
+    .sub-nav__breadcrumb span { color: var(--text-med); }
+    .sub-nav__breadcrumb .sep { color: var(--text-lo); }
+
+    /* ── Main layout ────────────────────────────────────────────────────── */
+    .layout {
+      display: flex;
+      flex: 1;
+      overflow: hidden;
+    }
+
+    /* ── Sidebar ────────────────────────────────────────────────────────── */
+    .sidebar {
+      width: 220px;
+      flex-shrink: 0;
+      background: var(--surface);
+      border-right: 1px solid var(--border);
+      overflow-y: auto;
+      padding: 16px 0;
+    }
+    .sidebar__section {
+      padding: 0 12px;
+      margin-bottom: 4px;
+    }
+    .sidebar__section-label {
+      font-size: 10px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.07em;
+      color: var(--text-lo);
+      padding: 8px 8px 4px;
+    }
+    .sidebar__item {
+      display: block;
+      padding: 5px 8px;
+      font-size: 12px;
+      color: var(--text-med);
+      border-radius: 5px;
+      cursor: default;
+      line-height: 1.4;
+    }
+    .sidebar__item--active {
+      background: var(--box);
+      color: var(--text-hi);
+      font-weight: 600;
+    }
+    .sidebar__item--indent { padding-left: 20px; }
+
+    /* ── Content ────────────────────────────────────────────────────────── */
+    .content {
+      flex: 1;
+      overflow-y: auto;
+      padding: 28px 40px;
+      max-width: 720px;
+    }
+
+    .content h1 {
+      font-size: 22px;
+      font-weight: 700;
+      color: var(--text-hi);
+      margin-bottom: 6px;
+    }
+    .content__meta {
+      font-size: 11px;
+      color: var(--text-lo);
+      margin-bottom: 20px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .content__meta-chip {
+      padding: 2px 8px;
+      background: var(--box);
+      border-radius: 10px;
+      font-size: 10px;
+      font-weight: 600;
+      color: var(--text-med);
+    }
+    .content p {
+      font-size: 13px;
+      color: var(--text-med);
+      line-height: 1.65;
+      margin-bottom: 14px;
+    }
+    .content h2 {
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--text-hi);
+      margin: 24px 0 10px;
+    }
+    .content h3 {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text-hi);
+      margin: 18px 0 8px;
+    }
+    .code-block {
+      background: #1E1E1E;
+      border-radius: 8px;
+      padding: 16px 18px;
+      margin-bottom: 16px;
+      overflow-x: auto;
+    }
+    .code-block pre {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      line-height: 1.7;
+      color: #D4D4D4;
+      white-space: pre;
+    }
+    .code-block pre .kw  { color: #569CD6; }
+    .code-block pre .str { color: #CE9178; }
+    .code-block pre .num { color: #B5CEA8; }
+    .code-block pre .cm  { color: #6A9955; }
+    .content__note {
+      padding: 10px 14px;
+      background: var(--box);
+      border-left: 3px solid var(--border);
+      border-radius: 0 6px 6px 0;
+      font-size: 12px;
+      color: var(--text-med);
+      margin-bottom: 14px;
+      line-height: 1.5;
+    }
+
+    /* ── Right panel: Ask AI ────────────────────────────────────────────── */
+    .ask-ai-panel {
+      width: var(--panel-w);
+      flex-shrink: 0;
+      background: var(--surface);
+      border-left: 1px solid var(--border);
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+    .ask-ai-panel__header {
+      height: 48px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 16px;
+      border-bottom: 1px solid var(--border-lo);
+      flex-shrink: 0;
+    }
+    .ask-ai-panel__title {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--text-hi);
+    }
+    .ask-ai-panel__icon {
+      width: 26px; height: 26px;
+      background: #111;
+      border-radius: 6px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #fff;
+    }
+    .ask-ai-panel__close {
+      width: 26px; height: 26px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: none;
+      border: none;
+      cursor: default;
+      color: var(--text-lo);
+      border-radius: 5px;
+      font-family: inherit;
+    }
+
+    /* Conversation */
+    .ask-ai-convo {
+      flex: 1;
+      overflow-y: auto;
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    .msg {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      max-width: 88%;
+    }
+    .msg--user { align-self: flex-end; align-items: flex-end; }
+    .msg--ai   { align-self: flex-start; align-items: flex-start; }
+    .msg__bubble {
+      padding: 9px 12px;
+      border-radius: 12px;
+      font-size: 12px;
+      line-height: 1.55;
+    }
+    .msg--user .msg__bubble {
+      background: #E8E8E8;
+      color: var(--text-hi);
+      border-bottom-right-radius: 3px;
+    }
+    .msg--ai .msg__bubble {
+      background: #F5F5F5;
+      border: 1px solid var(--border-lo);
+      color: var(--text-hi);
+      border-bottom-left-radius: 3px;
+    }
+    .msg__sender {
+      font-size: 10px;
+      font-weight: 600;
+      color: var(--text-lo);
+      padding: 0 3px;
+    }
+
+    /* Exhaustion / handoff card */
+    .handoff-card {
+      margin: 4px 0 0;
+      padding: 12px 14px;
+      background: #FAFAFA;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .handoff-card__label {
+      font-size: 10px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.07em;
+      color: var(--text-lo);
+    }
+    .handoff-card__body {
+      font-size: 12px;
+      color: var(--text-med);
+      line-height: 1.5;
+    }
+    .handoff-card__payload {
+      background: var(--box);
+      border-radius: 6px;
+      padding: 8px 10px;
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+    }
+    .handoff-card__payload-row {
+      font-size: 11px;
+      color: var(--text-med);
+      display: flex;
+      gap: 6px;
+    }
+    .handoff-card__payload-row strong {
+      color: var(--text-hi);
+      font-weight: 600;
+      min-width: 80px;
+      flex-shrink: 0;
+    }
+    .handoff-card__cta {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      padding: 0 16px;
+      height: 36px;
+      border-radius: 18px;
+      background: var(--red);
+      color: #fff;
+      font-family: inherit;
+      font-size: 13px;
+      font-weight: 600;
+      text-decoration: none;
+      border: none;
+      cursor: pointer;
+      align-self: stretch;
+      transition: background 0.15s;
+    }
+    .handoff-card__cta:hover { background: #C41710; }
+
+    /* Input bar (non-functional) */
+    .ask-ai-input {
+      padding: 12px 14px;
+      border-top: 1px solid var(--border-lo);
+      flex-shrink: 0;
+    }
+    .ask-ai-input__bar {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 12px;
+      background: var(--box);
+      border-radius: 20px;
+      border: 1px solid var(--border);
+    }
+    .ask-ai-input__placeholder {
+      flex: 1;
+      font-size: 12px;
+      color: var(--text-lo);
+    }
+    .ask-ai-input__send {
+      width: 24px; height: 24px;
+      background: var(--border);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    /* Prototype nav */
+    .proto-nav { position: fixed; bottom: 20px; left: 20px; z-index: 9999; }
+    .proto-nav__btn { display: inline-flex; align-items: center; gap: 6px; padding: 7px 12px; background: rgba(255,255,255,0.92); border: 1px solid rgba(0,0,0,0.12); border-radius: 20px; box-shadow: 0 2px 8px rgba(0,0,0,0.12); font-family: inherit; font-size: 12px; font-weight: 600; color: #555; text-decoration: none; backdrop-filter: blur(6px); transition: background 0.15s, color 0.15s; }
+    .proto-nav__btn:hover { background: #fff; color: #111; }
+
+    /* Wireframe annotation */
+    .wf-label {
+      position: fixed;
+      top: 100px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: rgba(0,0,0,0.6);
+      color: #fff;
+      font-size: 11px;
+      font-weight: 600;
+      padding: 4px 12px;
+      border-radius: 12px;
+      pointer-events: none;
+      z-index: 100;
+      letter-spacing: 0.04em;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Top bar -->
+  <div class="top-bar">
+    <div class="top-bar__logo"></div>
+    <div class="top-bar__nav">
+      <div class="top-bar__nav-item top-bar__nav-item--active">Products</div>
+      <div class="top-bar__nav-item">Resources</div>
+      <div class="top-bar__nav-item">Pricing</div>
+    </div>
+    <div class="top-bar__actions">
+      <div class="top-bar__search">
+        <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><circle cx="5" cy="5" r="3.5" stroke="currentColor" stroke-width="1.2"/><path d="M8 8l2 2" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>
+        Search docs…
+      </div>
+      <button class="top-bar__btn">Sign in</button>
+    </div>
+  </div>
+
+  <!-- Sub-nav / breadcrumb -->
+  <div class="sub-nav">
+    <div class="sub-nav__breadcrumb">
+      <span>Routing API</span>
+      <span class="sep">›</span>
+      <span>Documentation</span>
+      <span class="sep">›</span>
+      <span style="color:var(--text-hi);font-weight:600;">Basic Route</span>
+    </div>
+  </div>
+
+  <!-- Main layout -->
+  <div class="layout">
+
+    <!-- Sidebar -->
+    <nav class="sidebar">
+      <div class="sidebar__section">
+        <div class="sidebar__section-label">Getting started</div>
+        <span class="sidebar__item">Introduction</span>
+        <span class="sidebar__item">Authentication</span>
+        <span class="sidebar__item">Quick start</span>
+      </div>
+      <div class="sidebar__section">
+        <div class="sidebar__section-label">Route calculation</div>
+        <span class="sidebar__item sidebar__item--active">Basic Route</span>
+        <span class="sidebar__item sidebar__item--indent">Request parameters</span>
+        <span class="sidebar__item sidebar__item--indent">Response schema</span>
+        <span class="sidebar__item">Long Distance Route</span>
+        <span class="sidebar__item">Batch Routing</span>
+        <span class="sidebar__item">Matrix Routing</span>
+      </div>
+      <div class="sidebar__section">
+        <div class="sidebar__section-label">Reference</div>
+        <span class="sidebar__item">API Explorer</span>
+        <span class="sidebar__item">Error codes</span>
+        <span class="sidebar__item">Changelog</span>
+      </div>
+    </nav>
+
+    <!-- Content -->
+    <div class="content">
+      <h1>Basic Route</h1>
+      <div class="content__meta">
+        <span>Service version: 1</span>
+        <span>·</span>
+        <span>Last edit: 2026.09.14</span>
+        <span class="content__meta-chip">Routing API v1.22</span>
+      </div>
+
+      <p>The Basic Route endpoint calculates the shortest or fastest route between two or more waypoints. The response includes a summary, legs, and the route geometry encoded as a GeoJSON LineString.</p>
+
+      <div class="content__note">The response waypoint count reflects the number of <strong>route legs</strong>, not the number of input locations. A route between two points returns one leg with a start and end point.</div>
+
+      <h2>Sample request</h2>
+      <p>The following example calculates a driving route from Amsterdam to Rotterdam, with default traffic settings applied.</p>
+
+      <div class="code-block"><pre><span class="kw">GET</span> https://api.tomtom.com/routing/1/calculateRoute/
+    <span class="num">52.3731</span>,<span class="num">4.8922</span>:<span class="num">51.9225</span>,<span class="num">4.4792</span>/json
+    ?<span class="str">key</span>={API_KEY}
+    &<span class="str">travelMode</span>=car
+    &<span class="str">traffic</span>=true</pre></div>
+
+      <h2>Sample response</h2>
+      <p>The response returns a <code style="background:var(--box);padding:1px 5px;border-radius:3px;font-family:'JetBrains Mono',monospace;font-size:11px;">routes</code> array. Each route object contains a <code style="background:var(--box);padding:1px 5px;border-radius:3px;font-family:'JetBrains Mono',monospace;font-size:11px;">summary</code> and one or more <code style="background:var(--box);padding:1px 5px;border-radius:3px;font-family:'JetBrains Mono',monospace;font-size:11px;">legs</code>.</p>
+
+      <div class="code-block"><pre>{
+  <span class="str">"routes"</span>: [{
+    <span class="str">"summary"</span>: {
+      <span class="str">"lengthInMeters"</span>: <span class="num">78432</span>,
+      <span class="str">"travelTimeInSeconds"</span>: <span class="num">3612</span>,
+      <span class="str">"departureTime"</span>: <span class="str">"2026-09-14T09:00:00+02:00"</span>
+    },
+    <span class="str">"legs"</span>: [{
+      <span class="str">"summary"</span>: { ... },
+      <span class="str">"points"</span>: [
+        { <span class="str">"latitude"</span>: <span class="num">52.3731</span>, <span class="str">"longitude"</span>: <span class="num">4.8922</span> },
+        { <span class="str">"latitude"</span>: <span class="num">51.9225</span>, <span class="str">"longitude"</span>: <span class="num">4.4792</span> }
+      ]
+    }]
+  }]
+}</pre></div>
+
+      <h3>Rendering the route</h3>
+      <p>Pass the <code style="background:var(--box);padding:1px 5px;border-radius:3px;font-family:'JetBrains Mono',monospace;font-size:11px;">points</code> array from each leg to the Map Display API to render the route geometry as a polyline on the map.</p>
+    </div>
+
+    <!-- Ask AI panel -->
+    <div class="ask-ai-panel">
+      <div class="ask-ai-panel__header">
+        <div class="ask-ai-panel__title">
+          <div class="ask-ai-panel__icon">
+            <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M7 1.5L8.5 5.5L12.5 6L9.5 9L10.5 13L7 11L3.5 13L4.5 9L1.5 6L5.5 5.5L7 1.5Z" stroke="white" stroke-width="1.2" stroke-linejoin="round"/></svg>
+          </div>
+          Ask AI
+        </div>
+        <button class="ask-ai-panel__close">
+          <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 2l8 8M10 2l-8 8" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>
+        </button>
+      </div>
+
+      <div class="ask-ai-convo">
+
+        <!-- User message 1 -->
+        <div class="msg msg--user">
+          <span class="msg__sender">You</span>
+          <div class="msg__bubble">We're following the sample code in your Routing API docs step by step, but the route rendered in our test app doesn't match what the docs describe. Are the docs outdated?</div>
+        </div>
+
+        <!-- AI response 1 -->
+        <div class="msg msg--ai">
+          <span class="msg__sender">Ask AI</span>
+          <div class="msg__bubble">I can help look into that. The Basic Route sample was last verified against Routing API v1.22. Could you confirm which specific sample you're following, and what the discrepancy looks like — for example, is it the number of waypoints, the route geometry, or the response structure?</div>
+        </div>
+
+        <!-- User message 2 -->
+        <div class="msg msg--user">
+          <span class="msg__sender">You</span>
+          <div class="msg__bubble">It's this Basic Route page. The docs show 3 waypoints in the rendered output but our response only returns 2.</div>
+        </div>
+
+        <!-- AI response 2 -->
+        <div class="msg msg--ai">
+          <span class="msg__sender">Ask AI</span>
+          <div class="msg__bubble">I've reviewed the Basic Route documentation and the current v1.22 response schema. The <code style="background:#E8E8E8;padding:1px 4px;border-radius:3px;font-family:'JetBrains Mono',monospace;font-size:10px;">points</code> array reflects leg endpoints, not intermediate waypoints — so a two-location request returns 2 points by design. However, if you're seeing a different count from what the sample describes, that may point to a documentation discrepancy I can't diagnose from here.</div>
+        </div>
+
+        <!-- User message 3 -->
+        <div class="msg msg--user">
+          <span class="msg__sender">You</span>
+          <div class="msg__bubble">Yes, exactly — the sample in the docs shows a different output to what we get. The sample itself seems wrong.</div>
+        </div>
+
+        <!-- AI exhaustion + handoff -->
+        <div class="msg msg--ai">
+          <span class="msg__sender">Ask AI</span>
+          <div class="msg__bubble">That's outside what I can verify from the documentation alone. If the sample response in the docs doesn't match what the API returns, it likely needs a documentation update — which requires review by the support team.</div>
+        </div>
+
+        <div class="handoff-card">
+          <div class="handoff-card__label">Reached the limit of self-service</div>
+          <div class="handoff-card__body">I'll pass everything from our conversation to the Help Center so you don't need to repeat yourself. A case will be prepared for your review.</div>
+          <div class="handoff-card__payload">
+            <div class="handoff-card__payload-row"><strong>Page</strong> Routing API › Basic Route</div>
+            <div class="handoff-card__payload-row"><strong>Product</strong> Routing API v1.22</div>
+            <div class="handoff-card__payload-row"><strong>Category</strong> Documentation issue</div>
+            <div class="handoff-card__payload-row"><strong>Summary</strong> Route rendered by sample code does not match described output</div>
+          </div>
+          <a class="handoff-card__cta" href="help-center-intake.html?source=ask-ai&category=other&description=We%27re+following+the+sample+code+in+TomTom%27s+Routing+API+documentation+step+by+step%2C+but+the+route+rendered+in+our+test+app+doesn%27t+match+what+the+docs+describe.+We%27re+not+sure+if+the+docs+are+outdated.&summary=Route+rendered+by+documentation+sample+code+does+not+match+described+output">
+            Get active support
+            <svg width="13" height="13" viewBox="0 0 13 13" fill="none"><path d="M4.5 2l5 4.5-5 4.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </a>
+        </div>
+
+      </div>
+
+      <!-- Non-functional input bar -->
+      <div class="ask-ai-input">
+        <div class="ask-ai-input__bar">
+          <span class="ask-ai-input__placeholder">Ask a question about this page…</span>
+          <div class="ask-ai-input__send">
+            <svg width="10" height="10" viewBox="0 0 10 10" fill="none"><path d="M2 8L8 5 2 2v2.5L6 5l-4 .5V8z" fill="currentColor"/></svg>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Prototype nav -->
+  <div class="proto-nav">
+    <a class="proto-nav__btn" href="index.html">
+      <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
+        <path d="M1 6L6 1.5L11 6" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M2.5 5V10.5H5V7.5H7V10.5H9.5V5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+      All pages
+    </a>
+  </div>
+
+</body>
+</html>

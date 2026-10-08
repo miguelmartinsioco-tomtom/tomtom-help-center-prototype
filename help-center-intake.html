@@ -239,6 +239,11 @@
     .deflect-fallback { display: flex; align-items: center; gap: 8px; padding: 12px 16px; border-top: 1px solid var(--ui-border-base-em); background: var(--ui-surface-1); font-size: 12px; color: var(--ui-text-med-em); grid-column: 1 / -1; }
     .deflect-fallback .btn--link { font-size: 12px; }
 
+    /* Cases-only mode: hide docs column (used when arriving from Ask AI) */
+    .deflect-card--cases-only .deflect-card__divider,
+    .deflect-card--cases-only .deflect-card__right { display: none; }
+    .deflect-card--cases-only .deflect-card__left { grid-column: 1 / -1; }
+
     /* ─── VA trigger ─────────────────────────────────────────────────────── */
     .va-trigger { position: fixed; bottom: 24px; right: 24px; width: 56px; height: 56px; border-radius: 50%; background: var(--ui-surface-brand-red); color: #fff; display: flex; align-items: center; justify-content: center; box-shadow: var(--ui-elevation-e4); z-index: 200; transition: background 0.15s, transform 0.15s; }
     .va-trigger:hover { background: #c41710; transform: scale(1.05); }
@@ -597,6 +602,7 @@
     const scenarioDropdown   = document.getElementById('scenario-dropdown');
 
     let activeScenario = null;
+    let handoffSummary = '';
 
     /* ── Build scenario dropdown ─────────────────────────────────────────── */
     SCENARIOS.forEach(s => {
@@ -661,10 +667,11 @@
           <div class="tile-desc">${cat.desc}</div>
           <div class="tile-tag">${cat.tag}</div>`;
         tile.addEventListener('click', () => {
+          const summary = activeScenario?.summary || handoffSummary || '';
           const params = new URLSearchParams({
             category: cat.id,
             description: intakeText.value.trim(),
-            ...(activeScenario?.summary ? { summary: activeScenario.summary } : {})
+            ...(summary ? { summary } : {})
           });
           window.location.href = 'help-center-record-producer.html?' + params.toString();
         });
@@ -792,6 +799,45 @@
     window.addEventListener('scroll', () => {
       navBar.classList.toggle('scrolled', window.scrollY > 0);
     }, { passive: true });
+
+    /* ── Ask AI handoff: source=ask-ai entry ─────────────────────────────── */
+    (function () {
+      const urlParams = new URLSearchParams(window.location.search);
+      if (urlParams.get('source') !== 'ask-ai') return;
+
+      const desc    = urlParams.get('description') || '';
+      const summary = urlParams.get('summary')     || '';
+      const cat     = urlParams.get('category')    || 'other';
+
+      if (!desc) return;
+
+      // Store for tile click handler
+      handoffSummary = summary;
+
+      // Pre-fill the textarea (shown in "You asked" strip)
+      intakeText.value = desc;
+
+      // Customize banner messaging
+      document.querySelector('.deflect-banner__title').textContent =
+        'Before you continue — we found related cases that might help';
+      document.querySelector('.deflect-banner__sub').textContent =
+        'Documentation was already explored via Ask AI. Review these open cases before submitting.';
+
+      // Collapsed bar: remove docs reference
+      document.querySelector('.deflect-collapsed-bar__text').textContent =
+        'You reviewed related cases — none matched your issue.';
+
+      // Hide the docs column — docs were already exhausted
+      document.getElementById('deflect-panel')
+        .querySelector('.deflect-card')
+        .classList.add('deflect-card--cases-only');
+
+      // Set up scenario to trigger deflection for this category
+      activeScenario = { category: cat, deflect: true, text: desc, summary };
+
+      // Skip initial state, go straight to results (with deflection gate)
+      goToResults(desc);
+    })();
   </script>
 
   <!-- ── Prototype nav ─────────────────────────────────────────────────────── -->

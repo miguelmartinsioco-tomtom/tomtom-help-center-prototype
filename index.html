@@ -164,7 +164,10 @@
     <!-- Guided flow callout -->
     <div class="flow-callout">
       <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="6.5" stroke="currentColor" stroke-width="1.3"/><path d="M8 7v4M8 5.5v.5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>
-      <div><strong>Guided flow:</strong> Start with the <a href="help-center-intake.html" style="color:#1D4ED8;font-weight:600;">Intake page</a>, pick a scenario (try <strong>D</strong> or <strong>E</strong>), review the deflection panel, then continue to the record producer to see the full AI-assisted experience.</div>
+      <div>
+        <strong>Flow A — Help Center:</strong> Start with the <a href="help-center-intake.html" style="color:#1D4ED8;font-weight:600;">Intake page</a>, pick scenario <strong>D</strong> or <strong>E</strong>, review the deflection panel, then continue to the record producer.<br style="margin-bottom:4px"/>
+        <strong>Flow B — Ask AI handoff:</strong> Start with the <a href="docs-wireframe.html" style="color:#1D4ED8;font-weight:600;">Docs wireframe</a>, interact with Ask AI (scenario <strong>F</strong>), click "Get active support" to enter the Help Center with context pre-loaded.
+      </div>
     </div>
 
     <!-- Primary pages -->
@@ -211,6 +214,23 @@
         <div class="page-card__body">
           <div class="page-card__name">Case Detail</div>
           <div class="page-card__desc">Open case view with activity timeline and status</div>
+        </div>
+        <svg class="page-card__arrow" width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M5 2l5 5-5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </a>
+
+    </div>
+
+    <!-- Ask AI flow -->
+    <div class="section-label">Ask AI → Help Center flow</div>
+    <div class="page-list">
+
+      <a class="page-card" href="docs-wireframe.html">
+        <div class="page-card__icon">
+          <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><rect x="2.5" y="2.5" width="13" height="13" rx="2.5" stroke="currentColor" stroke-width="1.3"/><path d="M5.5 6h7M5.5 9h5M5.5 12h3" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/><path d="M14 11v4M12 13h4" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>
+        </div>
+        <div class="page-card__body">
+          <div class="page-card__name">Docs Wireframe — Ask AI panel</div>
+          <div class="page-card__desc">Low-fi docs page with Ask AI conversation (Scenario F) — exhausts scope and hands off to Help Center</div>
         </div>
         <svg class="page-card__arrow" width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M5 2l5 5-5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
       </a>
