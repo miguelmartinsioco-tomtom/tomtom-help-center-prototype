@@ -836,6 +836,7 @@
       activeScenario = { category: cat, deflect: true, text: desc, summary };
 
       // Skip initial state, go straight to results (with deflection gate)
+      stateInitial.hidden = true;
       goToResults(desc);
     })();
   </script>
